@@ -1,2 +1,2 @@
 # Creature-Breeder
-Mini game monster capture like focused on breeding with OOP and ruby 
+Mini monster capture like game focused on breeding with OOP and ruby 
