@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Creature class, mold for creatures
 class Creature
   attr_reader :name, :species, :element, :level, :rarity, :health, :abilities
   attr_accessor :discovered, :owned
@@ -7,17 +10,29 @@ class Creature
     @species = species
     @element = element
     @level = attributes[:level] || 1
-    @rarity = attributes[:rarity] || generate_rarity
-    @health = attributes[:health] || 100
+    @rarity = attributes[:rarity]
+    @health = attributes[:health] || level * 10
     @abilities = attributes[:abilities] || [generate_abilities]
-    @discovered = false
-    @owned = false
+    @discovered = attributes.fetch(:discovered, false)
+    @owned = attributes.fetch(:owned, false)
+  end
+
+  def marks
+    discovered_mark = @discovered ? '✅' : '❌'
+    owned_mark = @owned ? '✅' : '❌'
+    [discovered_mark, owned_mark]
   end
 
   def info
+    discovered_mark, owned_mark = marks
     "Name: #{@name}, Species: #{@species}, Element: #{@element}, " \
     "Level: #{@level}, Rarity: #{@rarity}, Health: #{@health}, " \
-    "Abilities: #{@abilities.join(', ')}, Discovered: #{@discovered}, Owned: #{@owned}"
+    "Abilities: #{@abilities.join(', ')}, Discovered: #{discovered_mark}, Owned: #{owned_mark}"
+  end
+
+  def starter_info
+    discovered_mark, owned_mark = marks
+    "#{@name} is a #{@rarity} #{@element} #{@species}! Discovered: #{discovered_mark} Owned: #{owned_mark}"
   end
 
   def generate_abilities

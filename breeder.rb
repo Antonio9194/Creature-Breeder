@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require_relative 'creature'
 require_relative 'creapedia'
 
+# Mold for bred creatures
 class Breeder
   def initialize(creapedia)
     @creapedia = creapedia
@@ -27,10 +30,11 @@ class Breeder
           level: breed_level,
           rarity: breed_rarity,
           health: breed_health,
-          abilities: [breed_abilities]
+          abilities: [breed_abilities],
+          discovered: true,
+          owned: true
         }
       )
-
       @creapedia.add_creature(new_creature)
       p new_creature.info
 

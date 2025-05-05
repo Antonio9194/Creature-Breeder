@@ -1,36 +1,39 @@
+# frozen_string_literal: true
+
+# Creaapedia stores all creatues
 class Creapedia
   # Initialize an empty hash to store creatures
   def initialize
     @creapedia = {
-      'Lavagor' => Creature.new('Lavagor', 'Drake', 'Fire'),
-      'Blazurn' => Creature.new('Blazurn', 'Drake', 'Fire'),
-      'Infernoir' => Creature.new('Infernoir', 'Drake', 'Fire'),
-      'Pyronis' => Creature.new('Pyronis', 'Drake', 'Fire'),
-      'Scorchil' => Creature.new('Scorchil', 'Drake', 'Fire'),
+      'Lavagor' => Creature.new('Lavagor', 'Drake', 'Fire', { rarity: 'Rare' }),
+      'Blazurn' => Creature.new('Blazurn', 'Drake', 'Fire', { rarity: 'Common' }),
+      'Infernoir' => Creature.new('Infernoir', 'Drake', 'Fire', { rarity: 'Common' }),
+      'Pyronis' => Creature.new('Pyronis', 'Drake', 'Fire', { rarity: 'Common' }),
+      'Scorchil' => Creature.new('Scorchil', 'Drake', 'Fire', { rarity: 'Common' }),
 
-      'Aqualis' => Creature.new('Aqualis', 'Sylph', 'Water'),
-      'Droplin' => Creature.new('Droplin', 'Sylph', 'Water'),
-      'Tidalyn' => Creature.new('Tidalyn', 'Sylph', 'Water'),
-      'Rivelle' => Creature.new('Rivelle', 'Sylph', 'Water'),
-      'Nymbria' => Creature.new('Nymbria', 'Sylph', 'Water'),
+      'Aqualis' => Creature.new('Aqualis', 'Sylph', 'Water', { rarity: 'Rare' }),
+      'Droplin' => Creature.new('Droplin', 'Sylph', 'Water', { rarity: 'Common' }),
+      'Tidalyn' => Creature.new('Tidalyn', 'Sylph', 'Water', { rarity: 'Common' }),
+      'Rivelle' => Creature.new('Rivelle', 'Sylph', 'Water', { rarity: 'Common' }),
+      'Nymbria' => Creature.new('Nymbria', 'Sylph', 'Water', { rarity: 'Common' }),
 
-      'Terronox' => Creature.new('Terronox', 'Golem', 'Earth'),
-      'Craggit' => Creature.new('Craggit', 'Golem', 'Earth'),
-      'Granitox' => Creature.new('Granitox', 'Golem', 'Earth'),
-      'Stonelith' => Creature.new('Stonelith', 'Golem', 'Earth'),
-      'Dirtlek' => Creature.new('Dirtlek', 'Golem', 'Earth'),
+      'Terronox' => Creature.new('Terronox', 'Golem', 'Earth', { rarity: 'Rare' }),
+      'Craggit' => Creature.new('Craggit', 'Golem', 'Earth', { rarity: 'Common' }),
+      'Granitox' => Creature.new('Granitox', 'Golem', 'Earth', { rarity: 'Common' }),
+      'Stonelith' => Creature.new('Stonelith', 'Golem', 'Earth', { rarity: 'Common' }),
+      'Dirtlek' => Creature.new('Dirtlek', 'Golem', 'Earth', { rarity: 'Common' }),
 
-      'Fangor' => Creature.new('Fangor', 'Beast', 'Air'),
-      'Howlit' => Creature.new('Howlit', 'Beast', 'Air'),
-      'Gryvorn' => Creature.new('Gryvorn', 'Beast', 'Air'),
-      'Talondo' => Creature.new('Talondo', 'Beast', 'Air'),
-      'Whispark' => Creature.new('Whispark', 'Beast', 'Air'),
+      'Fangor' => Creature.new('Fangor', 'Beast', 'Air', { rarity: 'Rare' }),
+      'Howlit' => Creature.new('Howlit', 'Beast', 'Air', { rarity: 'Common' }),
+      'Gryvorn' => Creature.new('Gryvorn', 'Beast', 'Air', { rarity: 'Common' }),
+      'Talondo' => Creature.new('Talondo', 'Beast', 'Air', { rarity: 'Common' }),
+      'Whispark' => Creature.new('Whispark', 'Beast', 'Air', { rarity: 'Common' }),
 
-      'Voltrag' => Creature.new('Voltrag', 'Drake', 'Electric'),
-      'Zephyla' => Creature.new('Zephyla', 'Sylph', 'Air'),
-      'Glacira' => Creature.new('Glacira', 'Sylph', 'Ice'),
-      'Obelisk' => Creature.new('Obelisk', 'Golem', 'Rock'),
-      'Nightclaw' => Creature.new('Nightclaw', 'Beast', 'Dark'),
+      'Voltrag' => Creature.new('Voltrag', 'Drake', 'Electric', { rarity: 'Legendary' }),
+      'Zephyla' => Creature.new('Zephyla', 'Sylph', 'Air', { rarity: 'Legendary' }),
+      'Glacira' => Creature.new('Glacira', 'Sylph', 'Ice', { rarity: 'Legendary' }),
+      'Obelisk' => Creature.new('Obelisk', 'Golem', 'Rock', { rarity: 'Legendary' }),
+      'Nightclaw' => Creature.new('Nightclaw', 'Beast', 'Dark', { rarity: 'Legendary' }),
 
       'Drakorin' => Creature.new('Drakorin', 'Drake', 'Fire'),
       'Flamora' => Creature.new('Flamora', 'Drake', 'Fire'),
@@ -79,13 +82,13 @@ class Creapedia
     @creapedia[name]
   end
 
-  # Access all creatures
-  def all_creatures
-    @creapedia.values
+  # Discovered creatures
+  def discovered_entries
+    @creapedia.values.select(&:discovered)
   end
 
   # Add a new creature
-  def add_creature(creature)
-    @creapedia[creature.name] = creature
+  def total_entries
+    @creapedia.size
   end
 end
