@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'io/console'
 require_relative 'creature'
 require_relative 'creapedia'
 
@@ -37,5 +38,12 @@ puts "You chose #{starter.name} as your starter!"
 puts 'Open your Creapedia and check your first entry!'
 puts 'Open your Creapedia? (Yes/No)'
 gets.chomp
-puts "You have #{entries} entry/entries, select one."
-puts " #{starter.starter_info} "
+if creapedia.discovered_entries_num == 1
+  puts "You have #{creapedia.discovered_entries_num} entry."
+  puts " Entries: #{creapedia.discovered_entries_list}"
+elsif creapedia.discovered_entries > 1
+  puts "You have #{creapedia.discovered_entries_num} entries."
+  puts " Entries: #{creapedia.discovered_entries_list}"
+end
+puts 'Type "esc" to exit'
+gets.chomp

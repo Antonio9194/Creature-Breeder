@@ -30,7 +30,7 @@ class Creature
     "Abilities: #{@abilities.join(', ')}, Discovered: #{discovered_mark}, Owned: #{owned_mark}"
   end
 
-  def starter_info
+  def entry_info
     discovered_mark, owned_mark = marks
     "#{@name} is a #{@rarity} #{@element} #{@species}! Discovered: #{discovered_mark} Owned: #{owned_mark}"
   end

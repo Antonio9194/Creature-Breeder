@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'creature'
+
 # Creaapedia stores all creatues
 class Creapedia
   # Initialize an empty hash to store creatures
@@ -82,13 +84,19 @@ class Creapedia
     @creapedia[name]
   end
 
-  # Discovered creatures
-  def discovered_entries
-    @creapedia.values.select(&:discovered)
+  # Discovered creatures number
+  def discovered_entries_num
+    @creapedia.values.select(&:discovered).size
   end
 
-  # Add a new creature
-  def total_entries
-    @creapedia.size
+  def discovered_entries_list
+    @creapedia.values
+              .select(&:discovered)
+              .map do |creature|
+                discovered_mark = creature.discovered ? '✅' : '❌'
+                owned_mark = creature.owned ? '✅' : '❌'
+                "#{creature.name} - Discovered: #{discovered_mark}, Owned: #{owned_mark}"
+              end
+              .join("\n")
   end
 end
