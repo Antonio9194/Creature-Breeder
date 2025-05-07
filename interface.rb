@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'io/console'
 require_relative 'creapedia'
 require_relative 'creature'
 
@@ -16,6 +17,25 @@ if File.exist?('savefile.json')
   player_creapedia = save_data['player_creapedia']
 
   puts "Welcome back, #{player}!"
+  puts 'Press S to Start the adventure'
+
+  loop do
+    key = STDIN.getch.downcase
+    if key == 's'
+      puts "\n[ Game Started ]"
+      break
+    else
+      puts "\n(Press S for start the game)"
+    end
+  end
+
+  loop do
+    key = STDIN.getch.downcase
+    case key
+    when key == 'm'
+      puts 'Menu: [ Creapedia | Creatures | Boxes | Save | Exit ]'
+    end
+  end
 
 else
   puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
