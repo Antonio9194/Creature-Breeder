@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'JSON'
+
 require_relative 'creature'
 
 # Creaapedia stores all creatues
@@ -98,5 +100,13 @@ class Creapedia
                 "#{creature.name} - Discovered: #{discovered_mark}, Owned: #{owned_mark}"
               end
               .join("\n")
+  end
+
+  def to_json_data(player, starter)
+    {
+      player: player,
+      starter: starter.name,
+      player_creapedia: discovered_entries_list
+    }
   end
 end
