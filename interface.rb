@@ -13,8 +13,7 @@ if File.exist?('savefile.json')
   save_data = JSON.parse(file)
 
   player = save_data['player']
-  starter_name = save_data['starter']['name']
-  starter = creapedia.find_by_name(starter_name)
+  player_creapedia = save_data['player_creapedia']
 
   puts "Welcome back, #{player}!"
 
@@ -76,7 +75,7 @@ else
 
       case choice
       when 'Save'
-        savefile = creapedia.to_json_data(player, starter)
+        savefile = creapedia.to_json_data(player)
         File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
         puts 'Game saved!'
 

@@ -102,10 +102,9 @@ class Creapedia
               .join("\n")
   end
 
-  def to_json_data(player, starter)
+  def to_json_data(player)
     {
       player: player,
-      starter: starter.name,
       player_creapedia: discovered_entries_list
     }
   end
