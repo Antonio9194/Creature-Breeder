@@ -16,6 +16,7 @@ if File.exist?('savefile.json')
   player = save_data['player']
   player_creapedia = save_data['player_creapedia']
 
+  # Welcomes the player and prompts command to start the game
   puts "Welcome back, #{player}!"
   puts 'Press S to Start the adventure'
 
@@ -29,11 +30,32 @@ if File.exist?('savefile.json')
     end
   end
 
+  # World loop
   loop do
-    key = STDIN.getch.downcase
-    case key
-    when key == 'm'
-      puts 'Menu: [ Creapedia | Creatures | Boxes | Save | Exit ]'
+    # Menu loop logic
+    loop do
+      key = STDIN.getch.downcase
+      case key
+      when 'm'
+        puts 'Menu: [ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]'
+      when '1'
+        p player_creapedia
+      when '2'
+        p team
+      when '3'
+        p boxes
+      when '4'
+        # save logic doesnt work here, must fix
+        savefile = creapedia.to_json_data(player)
+        File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
+        puts 'Game saved!'
+      when '5'
+        break
+      when '6'
+        break
+      else
+        puts '(Invalid option. Try again.)'
+      end
     end
   end
 
@@ -84,22 +106,15 @@ else
     end
   end
 
-  puts 'Type "Exit" to exit or "M" to open the main menu'
-  menu_choice = gets.chomp
-
-  if menu_choice.downcase == 'm'
-
+  puts 'Press "M" to open the main menu'
+  key = STDIN.getch.downcase
+  if key == 'm'
     loop do
-      puts '[ Creapedia | Save | Exit ]'
-      choice = gets.chomp.capitalize
+      puts '[ 1.Creapedia | 2.Save | 3.Exit ]'
+      choice = STDIN.getch.downcase
 
       case choice
-      when 'Save'
-        savefile = creapedia.to_json_data(player)
-        File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
-        puts 'Game saved!'
-
-      when 'Creapedia'
+      when '1'
         if creapedia.discovered_entries_num == 1
           puts "You have #{creapedia.discovered_entries_num} entry."
           puts " Entries: #{creapedia.discovered_entries_list}"
@@ -107,11 +122,13 @@ else
           puts "You have #{creapedia.discovered_entries_num} entries."
           puts " Entries: #{creapedia.discovered_entries_list}"
         end
-
-      when 'Exit'
+      when '2'
+        savefile = creapedia.to_json_data(player)
+        File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
+        puts 'Game saved!'
+      when '3'
         puts 'Goodbye, adventurer'
         break
-
       else
         puts 'Invalid choice, try again!'
       end

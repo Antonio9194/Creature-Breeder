@@ -108,4 +108,8 @@ class Creapedia
       player_creapedia: discovered_entries_list
     }
   end
+
+  def add_entry(entry)
+    @discovered_entries_list << entry unless @discovered_entries_list.include?(entry)
+  end
 end
