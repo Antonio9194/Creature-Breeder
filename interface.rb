@@ -7,6 +7,9 @@ require_relative 'creature'
 creapedia = Creapedia.new
 starter = nil
 player = nil
+player_creapedia = []
+team = []
+boxes = []
 
 # Load game if save file exists
 if File.exist?('savefile.json')
@@ -14,14 +17,17 @@ if File.exist?('savefile.json')
   save_data = JSON.parse(file)
 
   player = save_data['player']
+  starter = save_data['starter']
   player_creapedia = save_data['player_creapedia']
+  team = save_data['team']
+  boxes = save_data['boxes']
 
   # Welcomes the player and prompts command to start the game
   puts "Welcome back, #{player}!"
   puts 'Press S to Start the adventure'
 
   loop do
-    key = STDIN.getch.downcase
+    key = $stdin.getch.downcase
     if key == 's'
       puts "\n[ Game Started ]"
       break
@@ -32,27 +38,58 @@ if File.exist?('savefile.json')
 
   # World loop
   loop do
-    # Menu loop logic
+    # Menu loop
     loop do
-      key = STDIN.getch.downcase
+      key = $stdin.getch.downcase
       case key
       when 'm'
-        puts 'Menu: [ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]'
+        # Show menu options
+        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
       when '1'
-        p player_creapedia
+        loop do
+          puts "\nYou have #{player_creapedia.count} #{player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
+          puts player_creapedia.map(&:to_s).join("\n")
+          puts "\nPress 'b' to return to the menu."
+
+          back_key = $stdin.getch.downcase
+          break if back_key == 'b'
+        end
+        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
       when '2'
-        p team
+        loop do
+          puts "\n#{team.map(&:to_s).join("\n")}"
+          puts "\nPress 'b' to return to the menu."
+
+          back_key = $stdin.getch.downcase
+          break if back_key == 'b'
+        end
+        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
       when '3'
-        p boxes
+        loop do
+          if boxes.count >= 1
+            puts "\n#{boxes.map(&:to_s).join("\n")}"
+          else
+            puts "\nBox is empty."
+          end
+          puts "\nPress 'b' to return to the menu."
+
+          back_key = $stdin.getch.downcase
+          break if back_key == 'b'
+        end
+        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
       when '4'
-        # save logic doesnt work here, must fix
-        savefile = creapedia.to_json_data(player)
+        # Save game logic
+        savefile = creapedia.to_json_data(player, starter, player_creapedia, team, boxes)
         File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
-        puts 'Game saved!'
+        puts "\nGame saved!"
+        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
       when '5'
+        # Exit to menu loop
         break
       when '6'
-        break
+        # Exit entire game
+        puts "\nExiting game. Goodbye!"
+        exit
       else
         puts '(Invalid option. Try again.)'
       end
@@ -63,7 +100,8 @@ else
   puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
   puts 'What is your name?'
   player = gets.chomp
-  puts "#{player}, Choose a starter and embark on this dangerous journey, adventure awaits!"
+
+  puts "#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
 
   loop do
     puts 'Choose: [Lavagor | Aqualis | Terronox | Fangor]'
@@ -72,14 +110,22 @@ else
     case choice
     when 'Lavagor', 'Aqualis', 'Terronox', 'Fangor'
       creature = creapedia.find_by_name(choice)
-      puts creature.info
-      puts "Do you want to choose #{choice}? (Yes/No)"
-      confirm = gets.chomp.downcase
-      if confirm == 'yes'
-        creature.discovered = true
-        creature.owned = true
-        starter = creature
-        break
+
+      if creature
+        puts creature.info
+        puts "Do you want to choose #{creature.name}? (Yes/No)"
+        confirm = gets.chomp.downcase
+
+        if confirm == 'yes'
+          creature.discovered = true
+          creature.owned = true
+          starter = creature
+          player_creapedia << starter
+          team << starter.name
+          break
+        end
+      else
+        puts 'Something went wrong—creature not found in Creapedia.'
       end
     else
       puts 'Invalid choice. Please try again.'
@@ -87,51 +133,56 @@ else
   end
 
   loop do
-    puts "You chose #{starter.name} as your starter!"
-    puts 'Open your Creapedia and check your first entry!'
-    puts 'Open your Creapedia? (Yes/No)'
-    choice = gets.chomp.downcase
+    puts "\nYou chose #{starter.name} as your starter!"
+    puts 'Open your Creapedia and check your first entry? (Yes/No)'
+    input = gets.chomp.downcase
 
-    if choice == 'yes'
-      if creapedia.discovered_entries_num == 1
-        puts "You have #{creapedia.discovered_entries_num} entry."
-        puts " Entries: #{creapedia.discovered_entries_list}"
-      elsif creapedia.discovered_entries_num > 1
-        puts "You have #{creapedia.discovered_entries_num} entries."
-        puts " Entries: #{creapedia.discovered_entries_list}"
+    if input == 'yes'
+      count = creapedia.discovered_entries_num
+      if count.zero?
+        puts 'You have no discovered entries.'
+      else
+        puts "You have #{creapedia.discovered_entries_num} #{creapedia.discovered_entries_num == 1 ? 'entry' : 'entries'}:"
+        puts creapedia.discovered_entries_list
       end
       break
-    elsif choice == 'no'
-      puts 'Please open your Creapedia.'
+    elsif input == 'no'
+      puts 'Please open your Creapedia before proceeding.'
+    else
+      puts 'Invalid input. Please enter Yes or No.'
     end
   end
+end
 
-  puts 'Press "M" to open the main menu'
+puts 'Press "M" to open the main menu'
+loop do
   key = STDIN.getch.downcase
   if key == 'm'
     loop do
       puts '[ 1.Creapedia | 2.Save | 3.Exit ]'
-      choice = STDIN.getch.downcase
-
+      choice = $stdin.getch.downcase
       case choice
       when '1'
-        if creapedia.discovered_entries_num == 1
-          puts "You have #{creapedia.discovered_entries_num} entry."
-          puts " Entries: #{creapedia.discovered_entries_list}"
-        elsif creapedia.discovered_entries_num > 1
-          puts "You have #{creapedia.discovered_entries_num} entries."
-          puts " Entries: #{creapedia.discovered_entries_list}"
+        count = creapedia.discovered_entries_num
+        if count.zero?
+          puts 'You have no discovered entries.'
+        else
+          puts "You have #{count} #{count == 1 ? 'entry' : 'entries'}:"
+          puts creapedia.discovered_entries_list
         end
       when '2'
-        savefile = creapedia.to_json_data(player)
+        savefile = creapedia.to_json_data(player, starter, player_creapedia, team, boxes)
         File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
         puts 'Game saved!'
       when '3'
-        puts 'Goodbye, adventurer'
+        puts 'Goodbye, adventurer 💫'
         break
       else
         puts 'Invalid choice, try again!'
       end
     end
+    break
+  else
+    puts "\n(Press 'M' to open the menu)"
   end
 end
