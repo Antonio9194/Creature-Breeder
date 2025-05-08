@@ -13,8 +13,14 @@ class Starting
 
   def choose
     starter = nil
+    player = nil
 
     loop do
+      puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
+      puts 'What is your name?'
+      player = gets.chomp
+      puts "#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
+
       puts 'Choose: [Lavagor | Aqualis | Terronox | Fangor]'
       choice = gets.chomp
 
@@ -47,7 +53,6 @@ class Starting
       puts "\nYou chose #{starter.name} as your starter!"
       puts 'Open your Creapedia and check your first entry? (Yes/No)'
       input = gets.chomp.downcase
-
       if input == 'yes'
         count = @creapedia.discovered_entries_num
         if count.zero?
@@ -63,7 +68,7 @@ class Starting
         puts 'Invalid input. Please enter Yes or No.'
       end
     end
-
-    starter # ← returning the chosen creature
+    puts 'Press "M" to open the main menu'
+    [player, starter]
   end
 end

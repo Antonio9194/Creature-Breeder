@@ -7,7 +7,6 @@ require_relative 'menu'
 require_relative 'starting'
 
 creapedia = Creapedia.new
-starter = nil
 player_creapedia = []
 team = []
 boxes = []
@@ -52,20 +51,15 @@ if File.exist?('savefile.json')
     menu.run
   end
 
+  # Start the game first time if no save file to load
 else
-  puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
-  puts 'What is your name?'
-  player = gets.chomp
-  puts "#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
-
   starting = Starting.new(
     creapedia: creapedia,
     player_creapedia: player_creapedia,
     team: team
   )
-  starting.choose
+  player, starter = starting.choose
 
-  puts 'Press "M" to open the main menu'
   game_data = {
     player: player,
     starter: starter,
