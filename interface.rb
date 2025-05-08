@@ -3,6 +3,7 @@
 require 'io/console'
 require_relative 'creapedia'
 require_relative 'creature'
+require_relative 'menu'
 
 creapedia = Creapedia.new
 starter = nil
@@ -36,64 +37,19 @@ if File.exist?('savefile.json')
     end
   end
 
+  game_data = {
+    player: player,
+    starter: starter,
+    player_creapedia: player_creapedia,
+    team: team,
+    boxes: boxes,
+    creapedia: creapedia
+  }
+  menu = Menu.new(game_data)
   # World loop
   loop do
     # Menu loop
-    loop do
-      key = $stdin.getch.downcase
-      case key
-      when 'm'
-        # Show menu options
-        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
-      when '1'
-        loop do
-          puts "\nYou have #{player_creapedia.count} #{player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
-          puts player_creapedia.map(&:to_s).join("\n")
-          puts "\nPress 'b' to return to the menu."
-
-          back_key = $stdin.getch.downcase
-          break if back_key == 'b'
-        end
-        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
-      when '2'
-        loop do
-          puts "\n#{team.map(&:to_s).join("\n")}"
-          puts "\nPress 'b' to return to the menu."
-
-          back_key = $stdin.getch.downcase
-          break if back_key == 'b'
-        end
-        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
-      when '3'
-        loop do
-          if boxes.count >= 1
-            puts "\n#{boxes.map(&:to_s).join("\n")}"
-          else
-            puts "\nBox is empty."
-          end
-          puts "\nPress 'b' to return to the menu."
-
-          back_key = $stdin.getch.downcase
-          break if back_key == 'b'
-        end
-        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
-      when '4'
-        # Save game logic
-        savefile = creapedia.to_json_data(player, starter, player_creapedia, team, boxes)
-        File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
-        puts "\nGame saved!"
-        puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
-      when '5'
-        # Exit to menu loop
-        break
-      when '6'
-        # Exit entire game
-        puts "\nExiting game. Goodbye!"
-        exit
-      else
-        puts '(Invalid option. Try again.)'
-      end
-    end
+    menu.run
   end
 
 else

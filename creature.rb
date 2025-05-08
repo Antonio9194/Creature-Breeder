@@ -35,6 +35,10 @@ class Creature
     "#{@name} is a #{@rarity} #{@element} #{@species}! Discovered: #{discovered_mark} Owned: #{owned_mark}"
   end
 
+  def to_s
+    "#{@name} - Discovered: #{@discovered ? '✅' : '❌'}, Owned: #{@owned ? '✅' : '❌'}"
+  end
+
   def generate_abilities
     case @element
     when 'Fire'
