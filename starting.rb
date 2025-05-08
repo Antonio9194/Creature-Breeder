@@ -15,24 +15,21 @@ class Starting
     starter = nil
     player = nil
 
-    loop do
-      puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
-      puts 'What is your name?'
-      player = gets.chomp
-      puts "#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
+    puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
+    puts 'What is your name?'
+    player = gets.chomp
+    puts "#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
 
+    loop do
       puts 'Choose: [Lavagor | Aqualis | Terronox | Fangor]'
       choice = gets.chomp
-
       case choice
       when 'Lavagor', 'Aqualis', 'Terronox', 'Fangor'
         creature = @creapedia.find_by_name(choice)
-
         if creature
           puts creature.info
           puts "Do you want to choose #{creature.name}? (Yes/No)"
           confirm = gets.chomp.downcase
-
           if confirm == 'yes'
             creature.discovered = true
             creature.owned = true
