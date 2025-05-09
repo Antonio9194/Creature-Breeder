@@ -8,7 +8,6 @@ require_relative 'creature'
 class Menu
   def initialize(game_data)
     @player = game_data[:player]
-    @starter = game_data[:starter]
     @player_creapedia = game_data[:player_creapedia]
     @team = game_data[:team]
     @boxes = game_data[:boxes]
@@ -45,23 +44,42 @@ class Menu
     puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
   end
 
+  def details(creature)
+    puts "\nDetails for #{creature.name}:"
+    puts creature.info # or whatever method shows all info
+  end
+
   def handle_creapedia
     loop do
       puts "\nYou have #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
-      puts @player_creapedia.map(&:to_s).join("\n")
-      puts "\nPress 'b' to return to the menu."
-      break if $stdin.getch.downcase == 'b'
+      @player_creapedia.each do |creature|
+        puts "\n#{creature.entry_info}."
+      end
+      puts "\nPress 'b' to go back to the menu."
+      display_menu if $stdin.getch.downcase == 'b'
+      break
     end
-    display_menu
   end
 
   def handle_team
     loop do
-      puts "\n#{@team.map(&:to_s).join("\n")}"
-      puts "\nPress 'b' to return to the menu."
-      break if $stdin.getch.downcase == 'b'
+      @team.each_with_index do |creature, index|
+        puts "\n#{index + 1} - #{creature.name}"
+      end
+      puts "\nPress a number to view details or 'b' to return to the main menu."
+      input = $stdin.getch.downcase
+      if input == 'b'
+        display_menu
+        break
+      elsif input =~ /\d/ && input.to_i.between?(1, @player_creapedia.size)
+        details(@team[input.to_i - 1])
+      else
+        puts 'Invalid input. Please try again.'
+      end
+      puts "\nPress 'b' to return to your team."
+      handle_team if $stdin.getch.downcase == 'b'
+      break
     end
-    display_menu
   end
 
   def handle_boxes
@@ -78,7 +96,7 @@ class Menu
   end
 
   def save_game
-    savefile = @creapedia.to_json_data(@player, @starter, @player_creapedia, @team, @boxes)
+    savefile = @creapedia.to_json_data(@player, @player_creapedia, @team, @boxes)
     File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
     puts "\nGame saved!"
     display_menu

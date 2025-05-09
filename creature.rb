@@ -17,6 +17,36 @@ class Creature
     @owned = attributes.fetch(:owned, false)
   end
 
+  def self.from_h(hash)
+    Creature.new(
+      hash['name'],
+      hash['species'],
+      hash['element'],
+      {
+        level: hash['level'],
+        rarity: hash['rarity'],
+        health: hash['health'],
+        abilities: hash['abilities'],
+        discovered: hash['discovered'],
+        owned: hash['owned']
+      }
+    )
+  end
+
+  def to_h
+    {
+      name: @name,
+      species: @species,
+      element: @element,
+      level: @level,
+      rarity: @rarity,
+      health: @health,
+      abilities: @abilities,
+      discovered: @discovered,
+      owned: @owned
+    }
+  end
+
   def marks
     discovered_mark = @discovered ? '✅' : '❌'
     owned_mark = @owned ? '✅' : '❌'
@@ -24,10 +54,9 @@ class Creature
   end
 
   def info
-    discovered_mark, owned_mark = marks
     "Name: #{@name}, Species: #{@species}, Element: #{@element}, " \
     "Level: #{@level}, Rarity: #{@rarity}, Health: #{@health}, " \
-    "Abilities: #{@abilities.join(', ')}, Discovered: #{discovered_mark}, Owned: #{owned_mark}"
+    "Abilities: #{@abilities.join(', ')}"
   end
 
   def entry_info
@@ -35,9 +64,9 @@ class Creature
     "#{@name} is a #{@rarity} #{@element} #{@species}! Discovered: #{discovered_mark} Owned: #{owned_mark}"
   end
 
-  def to_s
-    "#{@name} - Discovered: #{@discovered ? '✅' : '❌'}, Owned: #{@owned ? '✅' : '❌'}"
-  end
+  # def to_s
+  #   "#{@name} - Discovered: #{@discovered ? '✅' : '❌'}, Owned: #{@owned ? '✅' : '❌'}"
+  # end
 
   def generate_abilities
     case @element

@@ -12,60 +12,42 @@ class Starting
   end
 
   def choose
-    starter = nil
     player = nil
+    creature = nil
 
     puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
     puts 'What is your name?'
     player = gets.chomp
-    puts "#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
+    puts "\n#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
 
     loop do
-      puts 'Choose: [Lavagor | Aqualis | Terronox | Fangor]'
+      puts "\nChoose: [Lavagor | Aqualis | Terronox | Fangor]"
       choice = gets.chomp
       case choice
       when 'Lavagor', 'Aqualis', 'Terronox', 'Fangor'
         creature = @creapedia.find_by_name(choice)
         if creature
-          puts creature.info
-          puts "Do you want to choose #{creature.name}? (Yes/No)"
+          puts "\n #{creature.info}"
+          puts "\nDo you want to choose #{creature.name}? (Yes/No)"
           confirm = gets.chomp.downcase
           if confirm == 'yes'
             creature.discovered = true
             creature.owned = true
-            starter = creature
-            @player_creapedia << starter
-            @team << starter.name
+            @player_creapedia << creature
+            @team << creature
             break
           end
         else
-          puts 'Something went wrong—creature not found in Creapedia.'
+          puts "\nSomething went wrong—creature not found in Creapedia."
         end
       else
-        puts 'Invalid choice. Please try again.'
+        puts "\nInvalid choice. Please try again."
       end
     end
 
-    loop do
-      puts "\nYou chose #{starter.name} as your starter!"
-      puts 'Open your Creapedia and check your first entry? (Yes/No)'
-      input = gets.chomp.downcase
-      if input == 'yes'
-        count = @creapedia.discovered_entries_num
-        if count.zero?
-          puts 'You have no discovered entries.'
-        else
-          puts "You have #{count} #{count == 1 ? 'entry' : 'entries'}:"
-          puts @creapedia.discovered_entries_list
-        end
-        break
-      elsif input == 'no'
-        puts 'Please open your Creapedia before proceeding.'
-      else
-        puts 'Invalid input. Please enter Yes or No.'
-      end
-    end
-    puts 'Press "M" to open the main menu'
-    [player, starter]
+    puts "\nYou chose #{creature.name} as your starter!"
+
+    puts "\nPress 'M' to open the main menu and check your creapedia entry!"
+    [player, creature]
   end
 end
