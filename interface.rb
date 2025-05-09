@@ -17,10 +17,11 @@ if File.exist?('savefile.json')
   save_data = JSON.parse(file)
 
   player = save_data['player']
-  starter = save_data['starter']
-  player_creapedia = save_data['player_creapedia']
-  team = save_data['team']
-  boxes = save_data['boxes']
+  player_creapedia = save_data['player_creapedia'].map { |data| Creature.from_h(data) }
+  team = save_data['team'].map { |data| Creature.from_h(data) }
+  boxes = save_data['boxes'].map do |box|
+    box.map { |data| Creature.from_h(data) }
+  end
 
   # Welcomes the player and prompts command to start the game
   puts "Welcome back, #{player}!"
@@ -38,7 +39,6 @@ if File.exist?('savefile.json')
 
   game_data = {
     player: player,
-    starter: starter,
     player_creapedia: player_creapedia,
     team: team,
     boxes: boxes,
