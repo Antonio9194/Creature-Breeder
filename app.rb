@@ -5,11 +5,14 @@ require_relative 'controllers/menu'
 require_relative 'controllers/starting'
 require_relative 'models/creapedia'
 require_relative 'models/creature'
+require_relative 'repositories/player_creapedia'
+require_relative 'repositories/team'
+require_relative 'repositories/boxes'
 
 creapedia = Creapedia.new
-player_creapedia = []
-team = []
-boxes = []
+player_creapedia = PlayerCreapediaRepo.new
+team = TeamRepo.new
+boxes = BoxesRepo.new
 
 # Load game if save file exists
 if File.exist?('savefile.json')

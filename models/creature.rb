@@ -3,13 +3,15 @@
 # Creature class, mold for creatures
 class Creature
   attr_reader :name, :species, :element, :level, :rarity, :health, :abilities
-  attr_accessor :discovered, :owned
+  attr_accessor :discovered, :owned, :xp, :xp_needed
 
   def initialize(name, species, element, attributes = {})
     @name = name
     @species = species
     @element = element
     @level = attributes[:level] || 1
+    @xp = attributes[:xp] || 0
+    @xp_needed = attributes[:xp_needed] || 100
     @rarity = attributes[:rarity]
     @health = attributes[:health] || level * 10
     @abilities = attributes[:abilities] || [generate_abilities]
@@ -24,6 +26,8 @@ class Creature
       hash['element'],
       {
         level: hash['level'],
+        xp: hash['xp'],
+        xp_needed: hash['xp_needed'],
         rarity: hash['rarity'],
         health: hash['health'],
         abilities: hash['abilities'],
@@ -39,6 +43,8 @@ class Creature
       species: @species,
       element: @element,
       level: @level,
+      xp: xp,
+      xp_needed: xp_needed,
       rarity: @rarity,
       health: @health,
       abilities: @abilities,
@@ -47,6 +53,16 @@ class Creature
     }
   end
 
+  # Methods to toggle discovery and ownership
+  def discover
+    @discovered = true
+  end
+
+  def own
+    @owned = true
+  end
+
+  # Defining marks for player creapedia
   def marks
     discovered_mark = @discovered ? '✅' : '❌'
     owned_mark = @owned ? '✅' : '❌'
@@ -64,9 +80,17 @@ class Creature
     "#{@name} is a #{@rarity} #{@element} #{@species}! Discovered: #{discovered_mark} Owned: #{owned_mark}"
   end
 
-  # def to_s
-  #   "#{@name} - Discovered: #{@discovered ? '✅' : '❌'}, Owned: #{@owned ? '✅' : '❌'}"
-  # end
+  def gain_xp(amount)
+    @xp += amount
+    level_up while @xp >= @xp_needed
+  end
+
+  def level_up
+    @xp -= @xp_needed
+    @level += 1
+    @xp_needed = (@level**1.5 * 100).to_i
+    puts "#{@name} leveled up to level #{@level}!"
+  end
 
   def generate_abilities
     case @element
@@ -89,29 +113,5 @@ class Creature
     else
       ['Basic Attack']
     end.sample
-  end
-
-  def generate_rarity
-    case @level
-    when 1..3
-      'Common'
-    when 4..7
-      'Uncommon'
-    when 8..9
-      'Rare'
-    when 10
-      'Epic'
-    else
-      'Legendary'
-    end
-  end
-
-  # Methods to toggle discovery and ownership
-  def discover
-    @discovered = true
-  end
-
-  def own
-    @owned = true
   end
 end
