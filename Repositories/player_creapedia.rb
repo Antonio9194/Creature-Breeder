@@ -12,10 +12,6 @@ class PlayerCreapediaRepo
     @creatures << creature
   end
 
-  def creapedia_count
-    @creatures.count
-  end
-
   def all_entries
     @creatures
   end

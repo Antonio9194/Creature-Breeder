@@ -3,6 +3,7 @@
 require 'io/console'
 require_relative '../models/creapedia'
 require_relative '../models/creature'
+require_relative '../repositories/player_creapedia'
 
 # Menu logic
 class Menu
@@ -50,35 +51,43 @@ class Menu
   end
 
   def handle_creapedia
-    loop do
-      puts "\nYou have #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
-      @player_creapedia.each do |creature|
-        puts "\n#{creature.entry_info}."
-      end
-      puts "\nPress 'b' to go back to the menu."
-      display_menu if $stdin.getch.downcase == 'b'
-      break
+    puts "\nYou have #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
+    @player_creapedia.each do |creature|
+      puts "\n#{creature.entry_info}."
     end
+    puts "\nPress 'b' to go back to the menu."
+    display_menu if $stdin.getch.downcase == 'b'
   end
 
   def handle_team
     loop do
-      @team.each_with_index do |creature, index|
-        puts "\n#{index + 1} - #{creature.name}"
-      end
-      puts "\nPress a number to view details or 'b' to return to the main menu."
-      input = $stdin.getch.downcase
-      if input == 'b'
-        display_menu
-        break
-      elsif input =~ /\d/ && input.to_i.between?(1, @player_creapedia.size)
-        details(@team[input.to_i - 1])
-      else
-        puts 'Invalid input. Please try again.'
-      end
-      puts "\nPress 'b' to return to your team."
-      handle_team if $stdin.getch.downcase == 'b'
-      break
+      display_team
+      input = team_input
+      break if handle_team_input(input)
+    end
+  end
+
+  def display_team
+    @team.each_with_index do |creature, index|
+      puts "\n#{index + 1} - #{creature.name}"
+    end
+    puts "\nPress a number to view details or 'b' to return to the main menu."
+  end
+
+  def team_input
+    $stdin.getch.downcase
+  end
+
+  def handle_team_input(input)
+    if input == 'b'
+      display_menu
+      true
+    elsif input =~ /\d/ && input.to_i.between?(1, @player_creapedia.size)
+      details(@team[input.to_i - 1])
+      false
+    else
+      puts 'Invalid input. Please try again.'
+      false
     end
   end
 

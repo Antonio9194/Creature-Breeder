@@ -12,7 +12,7 @@ require_relative 'repositories/boxes'
 creapedia = Creapedia.new
 player_creapedia = PlayerCreapediaRepo.new
 team = TeamRepo.new
-boxes = BoxesRepo.new
+boxes = BoxesRepo
 
 # Load game if save file exists
 if File.exist?('savefile.json')
