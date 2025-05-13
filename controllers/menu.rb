@@ -4,6 +4,7 @@ require 'io/console'
 require_relative '../models/creapedia'
 require_relative '../models/creature'
 require_relative '../repositories/player_creapedia'
+require_relative '../repositories/boxes'
 
 # Menu logic
 class Menu
@@ -19,20 +20,13 @@ class Menu
     loop do
       key = $stdin.getch.downcase
       case key
-      when 'm'
-        display_menu
-      when '1'
-        handle_creapedia
-      when '2'
-        handle_team
-      when '3'
-        handle_boxes
-      when '4'
-        save_game
-      when '5'
-        break
-      when '6'
-        exit_game
+      when 'm' then display_menu
+      when '1' then handle_creapedia
+      when '2' then handle_team
+      when '3' then handle_boxes
+      when '4' then save_game
+      when '5' then break
+      when '6' then exit_game
       else
         puts '(Invalid option. Try again.)'
       end
@@ -45,11 +39,6 @@ class Menu
     puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
   end
 
-  def details(creature)
-    puts "\nDetails for #{creature.name}:"
-    puts creature.info # or whatever method shows all info
-  end
-
   def handle_creapedia
     puts "\nYou have #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
     @player_creapedia.each do |creature|
@@ -59,35 +48,61 @@ class Menu
     display_menu if $stdin.getch.downcase == 'b'
   end
 
+  def creature_menu(creature)
+    puts '1. Check Details'
+    puts '2. Move to Boxes'
+    puts '3. Back to previous Menu'
+    input = $stdin.getch.downcase
+    case input
+    when '1' then details(creature)
+                  puts "\nPress b to go back"
+                  input = $stdin.getch.downcase
+                  if input == 'b'
+                    puts "\n"
+                    creature_menu(creature) 
+                  else
+                    puts "\nWrong input, try again."
+                  end
+    when '2' then add_to_boxes(creature)
+                  p @boxes
+                  puts "\nPress b to go back"
+                  input = $stdin.getch.downcase
+                  if input == 'b'
+                    puts "\n"
+                    creature_menu(creature)
+                  else
+                    puts "\nWrong input, try again."
+                  end
+    when '3' then handle_team
+    else puts "\nWrong input, try again."
+    end
+  end
+
+  def details(creature)
+    puts "\nDetails for #{creature.name}:"
+    puts creature.info # or whatever method shows all info
+  end
+
   def handle_team
     loop do
-      display_team
-      input = team_input
-      break if handle_team_input(input)
-    end
-  end
-
-  def display_team
-    @team.each_with_index do |creature, index|
-      puts "\n#{index + 1} - #{creature.name}"
-    end
-    puts "\nPress a number to view details or 'b' to return to the main menu."
-  end
-
-  def team_input
-    $stdin.getch.downcase
-  end
-
-  def handle_team_input(input)
-    if input == 'b'
-      display_menu
-      true
-    elsif input =~ /\d/ && input.to_i.between?(1, @player_creapedia.size)
-      details(@team[input.to_i - 1])
-      false
-    else
-      puts 'Invalid input. Please try again.'
-      false
+      puts "\nYour Team:"
+      @team.each_with_index do |creature, index|
+        puts "#{index + 1} - #{creature.name}"
+      end
+      puts "\nPress a number to open the creature menu or 'b' to return to the main menu."
+      input = $stdin.getch.downcase
+      if input == 'b'
+        display_menu
+        break # This stops the loop and returns to the main menu
+      elsif input =~ /\d/ && input.to_i.between?(1, @team.size)
+        creature = @team[input.to_i - 1]
+        puts "\n#{creature.name}'s Menu"
+        puts "\n"
+        creature_menu(creature)
+        break
+      else
+        puts 'Invalid input. Please try again.'
+      end
     end
   end
 

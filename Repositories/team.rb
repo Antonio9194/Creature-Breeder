@@ -13,6 +13,10 @@ class TeamRepo
   end
 
   def remove_from_team(index)
+    if @team.size <= 1
+      puts 'You must have at least one creature in your team!'
+      return
+    end
     @team.delete_at(index)
   end
 end

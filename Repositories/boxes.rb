@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'team'
+
 # Boxes
 class BoxesRepo
   attr_reader :boxes
@@ -9,6 +11,10 @@ class BoxesRepo
   end
 
   def add_to_boxes(creature)
+    if @team.size <= 1
+      puts 'You must have at least one creature in your team!'
+      return
+    end
     @boxes << creature
   end
 
