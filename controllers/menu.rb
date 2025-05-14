@@ -3,8 +3,9 @@
 require 'io/console'
 require_relative '../models/creapedia'
 require_relative '../models/creature'
-require_relative '../repositories/player_creapedia'
-require_relative '../repositories/boxes'
+require_relative '../repositories/player_creapedia_repository'
+require_relative '../repositories/boxes_repository'
+require_relative '../repositories/team_repository'
 
 # Menu logic
 class Menu
@@ -48,6 +49,22 @@ class Menu
     display_menu if $stdin.getch.downcase == 'b'
   end
 
+  def move_to_boxes_from_team(creature)
+    if @team.size <= 1
+      puts 'You must keep at least one creature in your team!'
+      return
+    end
+    @team.remove(creature)
+    @boxes.add(creature)
+    puts "#{creature.name} moved to boxes!"
+  end
+
+  def move_to_team_from_box(creature)
+    @boxes.remove(creature)
+    @team.add(creature)
+    puts "#{creature.name} moved to team"
+  end
+
   def creature_menu(creature)
     puts '1. Check Details'
     puts '2. Move to Boxes'
@@ -59,11 +76,11 @@ class Menu
                   input = $stdin.getch.downcase
                   if input == 'b'
                     puts "\n"
-                    creature_menu(creature) 
+                    creature_menu(creature)
                   else
                     puts "\nWrong input, try again."
                   end
-    when '2' then add_to_boxes(creature)
+    when '2' then move_to_boxes_from_team(creature)
                   p @boxes
                   puts "\nPress b to go back"
                   input = $stdin.getch.downcase
