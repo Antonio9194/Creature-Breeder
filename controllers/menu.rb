@@ -41,7 +41,7 @@ class Menu
   end
 
   def handle_creapedia
-    puts "\nYou have #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
+    puts "\nYou have #{@player_creapedia.entries_count} #{@player_creapedia.entries_count == 1 ? 'entry.' : 'entries.'}"
     @player_creapedia.each do |creature|
       puts "\n#{creature.entry_info}."
     end
@@ -50,18 +50,18 @@ class Menu
   end
 
   def move_to_boxes_from_team(creature)
-    if @team.size <= 1
+    if @team.team_count <= 1
       puts 'You must keep at least one creature in your team!'
-      return
+    else
+      @team.remove_from_team(creature)
+      @boxes.add_to_box(creature)
+      puts "#{creature.name} moved to boxes!"
     end
-    @team.remove(creature)
-    @boxes.add(creature)
-    puts "#{creature.name} moved to boxes!"
   end
 
   def move_to_team_from_box(creature)
-    @boxes.remove(creature)
-    @team.add(creature)
+    @boxes.remove_from_box(creature)
+    @team.add_to_team(creature)
     puts "#{creature.name} moved to team"
   end
 
@@ -81,7 +81,6 @@ class Menu
                     puts "\nWrong input, try again."
                   end
     when '2' then move_to_boxes_from_team(creature)
-                  p @boxes
                   puts "\nPress b to go back"
                   input = $stdin.getch.downcase
                   if input == 'b'
@@ -111,7 +110,7 @@ class Menu
       if input == 'b'
         display_menu
         break # This stops the loop and returns to the main menu
-      elsif input =~ /\d/ && input.to_i.between?(1, @team.size)
+      elsif input =~ /\d/ && input.to_i.between?(1, @team.team_count)
         creature = @team[input.to_i - 1]
         puts "\n#{creature.name}'s Menu"
         puts "\n"

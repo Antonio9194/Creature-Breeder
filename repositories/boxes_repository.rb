@@ -2,17 +2,26 @@
 
 # Boxes
 class BoxesRepo
+  include Enumerable
   attr_reader :boxes
 
   def initialize(boxes = [])
     @boxes = boxes
   end
 
-  def add(creature)
+  def each(&block)
+    @boxes.each(&block)
+  end
+
+  def [](index)
+    @boxes[index]
+  end
+
+  def add_to_box(creature)
     @boxes << creature
   end
 
-  def remove(index)
+  def remove_from_box(index)
     @boxes.delete_at(index)
   end
 end

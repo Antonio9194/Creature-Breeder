@@ -2,6 +2,7 @@
 
 # Player Creapedia Repository
 class PlayerCreapediaRepo
+  include Enumerable
   attr_reader :creatures
 
   def initialize(creatures = [])
@@ -10,6 +11,18 @@ class PlayerCreapediaRepo
 
   def add_to_creapedia(creature)
     @creatures << creature
+  end
+
+  def [](index)
+    @team[index]
+  end
+
+  def each(&block)
+    @creatures.each(&block)
+  end
+
+  def entries_count
+    @creatures.count
   end
 
   def all_entries
