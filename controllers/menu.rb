@@ -41,7 +41,7 @@ class Menu
   end
 
   def handle_creapedia
-    puts "\nYou have #{@player_creapedia.entries_count} #{@player_creapedia.entries_count == 1 ? 'entry.' : 'entries.'}"
+    puts "\nYou have #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
     @player_creapedia.each do |creature|
       puts "\n#{creature.entry_info}."
     end
@@ -50,7 +50,7 @@ class Menu
   end
 
   def move_to_boxes_from_team(creature)
-    if @team.team_count <= 1
+    if @team.count <= 1
       puts 'You must keep at least one creature in your team!'
     else
       @team.remove_from_team(creature)
@@ -110,7 +110,7 @@ class Menu
       if input == 'b'
         display_menu
         break # This stops the loop and returns to the main menu
-      elsif input =~ /\d/ && input.to_i.between?(1, @team.team_count)
+      elsif input =~ /\d/ && input.to_i.between?(1, @team.count)
         creature = @team[input.to_i - 1]
         puts "\n#{creature.name}'s Menu"
         puts "\n"
