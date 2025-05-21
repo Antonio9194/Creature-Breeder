@@ -3,9 +3,11 @@
 require 'io/console'
 require_relative '../models/creapedia'
 require_relative '../models/creature'
+
 require_relative '../repositories/player_creapedia_repository'
 require_relative '../repositories/boxes_repository'
 require_relative '../repositories/team_repository'
+require_relative '../repositories/bag_repository'
 
 # Menu logic
 class Menu
@@ -15,6 +17,7 @@ class Menu
     @team = game_data[:team]
     @boxes = game_data[:boxes]
     @creapedia = game_data[:creapedia]
+    @bag = game_data[:bag]
   end
 
   def run
@@ -25,9 +28,10 @@ class Menu
       when '1' then handle_creapedia
       when '2' then handle_team
       when '3' then handle_boxes
-      when '4' then save_game
-      when '5' then break
-      when '6' then exit_game
+      when '4' then open_bag
+      when '5' then save_game
+      when '6' then break
+      when '7' then exit_game
       else
         puts '(Invalid option. Try again.)'
       end
@@ -37,7 +41,7 @@ class Menu
   private
 
   def display_menu
-    puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Save | 5.Exit Menu | 6.Exit Game ]"
+    puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Bag | 5.Save | 6.Exit Menu | 7.Exit Game ]"
   end
 
   def handle_creapedia
@@ -135,8 +139,21 @@ class Menu
     display_menu
   end
 
+  def open_bag
+    loop do
+      if @bag.count >= 1
+        puts "\n#{@bag.map(&:to_s).join("\n")}"
+      else
+        puts "\nBox is empty."
+      end
+      puts "\nPress 'b' to return to the menu."
+      break if $stdin.getch.downcase == 'b'
+    end
+    display_menu
+  end
+
   def save_game
-    savefile = @creapedia.to_json_data(@player, @player_creapedia, @team, @boxes)
+    savefile = @creapedia.to_json_data(@player, @player_creapedia, @team, @boxes, @bag)
     File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
     puts "\nGame saved!"
     display_menu

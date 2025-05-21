@@ -3,16 +3,22 @@
 require 'io/console'
 require_relative 'controllers/menu'
 require_relative 'controllers/starting'
+
 require_relative 'models/creapedia'
 require_relative 'models/creature'
+require_relative 'models/bag'
+require_relative 'models/item'
+
 require_relative 'repositories/player_creapedia_repository'
 require_relative 'repositories/team_repository'
 require_relative 'repositories/boxes_repository'
+require_relative 'repositories/bag_repository'
 
 creapedia = Creapedia.new
 player_creapedia = PlayerCreapediaRepo.new
 team = TeamRepo.new
 boxes = BoxesRepo.new
+bag = BagRepo.new
 
 # Load game if save file exists
 if File.exist?('savefile.json')
@@ -25,6 +31,7 @@ if File.exist?('savefile.json')
   boxes = save_data['boxes'].map do |box|
     box.map { |data| Creature.from_h(data) }
   end
+  bag = save_data['bag']
 
   # Welcomes the player and prompts command to start the game
   puts "Welcome back, #{player}!"
@@ -45,6 +52,7 @@ if File.exist?('savefile.json')
     player_creapedia: player_creapedia,
     team: team,
     boxes: boxes,
+    bag: bag,
     creapedia: creapedia
   }
   menu = Menu.new(game_data)
@@ -59,7 +67,8 @@ else
   starting = Starting.new(
     creapedia: creapedia,
     player_creapedia: player_creapedia,
-    team: team
+    team: team,
+    bag: bag
   )
   player, starter = starting.choose
 
@@ -69,6 +78,7 @@ else
     player_creapedia: player_creapedia,
     team: team,
     boxes: boxes,
+    bag: bag,
     creapedia: creapedia
   }
   menu = Menu.new(game_data)

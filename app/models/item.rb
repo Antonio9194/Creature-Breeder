@@ -2,11 +2,19 @@
 
 # Items Model
 class Item
-  def initialize(id:, name:, quantity:, description:, type:)
-    @id = id
-    @name = name
-    @quantity = quantity
-    @description = description
-    @type = type # Key Items, Healing, Capture, Money, Badges
+  attr_reader :id, :name, :quantity, :description
+
+  def initialize(attributes = {})
+    @id = attributes[:id]
+    @name = name[:name]
+    @quantity = quantity[:quantity]
+    @description = description[:description]
+    # Key Items, Healing, Capture, Money, Badges
+  end
+
+  def to_s
+    "#{@quantity}x #{@name}"
   end
 end
+
+creaflop = Item.new(id: 1, name: 'Creaflop', quantity: 10, description: 'Item used to capture Creatures')

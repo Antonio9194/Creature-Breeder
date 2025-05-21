@@ -2,6 +2,8 @@
 
 require_relative '../models/creapedia'
 require_relative '../models/creature'
+require_relative '../models/bag'
+require_relative '../models/item'
 
 # Logic to start game and choose starter first time
 class Starting
@@ -11,12 +13,14 @@ class Starting
     @team = game_data[:team]
     @boxes = game_data[:boxes]
     @creapedia = game_data[:creapedia]
+    @bag = game_data[:bag]
   end
 
   def choose
     player = player_name
     creature = select_starter
     puts "\nYou chose #{creature.name} as your starter!"
+    adding_first_item
     puts "\nPress 'M' to open the main menu and check your creapedia entry!"
     [player, creature]
   end
@@ -58,5 +62,10 @@ class Starting
     else
       puts "\nPlease choose again."
     end
+  end
+  @item.creaflop
+  def adding_first_item
+    @bag.add_item_to_bag(creaflop)
+    puts "Here are 10 #{creaflop.name} to help you start your adventure!"
   end
 end
