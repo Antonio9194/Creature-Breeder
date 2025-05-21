@@ -21,8 +21,12 @@ class BagRepo
     @bag
   end
 
-  def add_item_to_bag(item)
-    @bag << item
+  def add_item_to_bag(item, amount = 1)
+    if @bag.include?(item)
+      item.increase_quantity(amount)
+    else
+      @bag << item
+    end
   end
 
   def items_count

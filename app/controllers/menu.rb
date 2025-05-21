@@ -41,7 +41,14 @@ class Menu
   private
 
   def display_menu
-    puts "\n[ 1.Creapedia | 2.Team | 3.Boxes | 4.Bag | 5.Save | 6.Exit Menu | 7.Exit Game ]"
+    puts "\nMain Menu"
+    puts "\n| 1. 📖Creapedia |"
+    puts '| 2. 👾Team      |'
+    puts '| 3. 📦Boxes     |'
+    puts '| 4. 🎒Bag       |'
+    puts '| 5. ✅Save      |'
+    puts '| 6. ⍈Exit Menu |'
+    puts '| 7. ⍈Exit Game |'
   end
 
   def handle_creapedia
@@ -107,7 +114,7 @@ class Menu
     loop do
       puts "\nYour Team:"
       @team.each_with_index do |creature, index|
-        puts "#{index + 1} - #{creature.name}"
+        puts "#{index + 1} - #{creature.name} 👾"
       end
       puts "\nPress a number to open the creature menu or 'b' to return to the main menu."
       input = $stdin.getch.downcase
@@ -141,6 +148,7 @@ class Menu
 
   def open_bag
     loop do
+      puts "\nBag"
       if @bag.count >= 1
         puts "\n#{@bag.map(&:to_s).join("\n")}"
       else

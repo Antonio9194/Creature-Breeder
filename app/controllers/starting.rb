@@ -66,7 +66,9 @@ class Starting
 
   def adding_first_item
     creaflop = Item::CREAFLOP
-    @bag.add_item_to_bag(creaflop)
+    potion = Item::POTION
+    10.times { @bag.add_item_to_bag(creaflop) }
+    5.times { @bag.add_item_to_bag(potion) }
     puts "\nHere are 10 #{creaflop.name} to help you start your adventure!"
   end
 end
