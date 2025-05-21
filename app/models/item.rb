@@ -6,15 +6,20 @@ class Item
 
   def initialize(attributes = {})
     @id = attributes[:id]
-    @name = name[:name]
-    @quantity = quantity[:quantity]
-    @description = description[:description]
+    @name = attributes[:name]
+    @quantity = attributes[:quantity]
+    @description = attributes[:description]
     # Key Items, Healing, Capture, Money, Badges
   end
 
   def to_s
     "#{@quantity}x #{@name}"
   end
-end
 
-creaflop = Item.new(id: 1, name: 'Creaflop', quantity: 10, description: 'Item used to capture Creatures')
+  CREAFLOP = Item.new(
+    id: 1,
+    name: 'Creaflop',
+    quantity: 10,
+    description: 'Item used to capture Creatures'
+  )
+end

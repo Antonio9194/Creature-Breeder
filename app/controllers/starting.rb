@@ -29,7 +29,7 @@ class Starting
 
   def player_name
     puts 'Welcome to Creature Breeder, collect, find and breed all of them!'
-    puts 'What is your name?'
+    puts "\nWhat is your name?"
     gets.chomp.tap do |player|
       puts "\n#{player}, choose a starter and embark on this dangerous journey. Adventure awaits!"
     end
@@ -63,9 +63,10 @@ class Starting
       puts "\nPlease choose again."
     end
   end
-  @item.creaflop
+
   def adding_first_item
+    creaflop = Item::CREAFLOP
     @bag.add_item_to_bag(creaflop)
-    puts "Here are 10 #{creaflop.name} to help you start your adventure!"
+    puts "\nHere are 10 #{creaflop.name} to help you start your adventure!"
   end
 end
