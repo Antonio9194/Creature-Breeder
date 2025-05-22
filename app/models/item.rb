@@ -15,7 +15,8 @@ class Item
   end
 
   def to_s
-    "#{@name}          #{emoji} x #{@quantity}"
+    puts "\n#{@emoji}#{@name}        x #{@quantity}"
+    puts "#{@description}"
   end
 
   def increase_quantity(amount)

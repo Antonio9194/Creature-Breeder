@@ -30,7 +30,7 @@ class Menu
       when '3' then handle_boxes
       when '4' then open_bag
       when '5' then save_game
-      when '6' then break
+      when '6' then break exit_menu
       when '7' then exit_game
       else
         puts '(Invalid option. Try again.)'
@@ -40,19 +40,29 @@ class Menu
 
   private
 
+  def exit_menu
+    loop do
+      puts "\nWorld"
+      puts "\n | 1.Exit Laboratory | 2.Talk to Prof. Kaku | M.Open Menu |"
+      key = $stdin.getch.downcase
+      case key
+      when '1' then
+      when '2' then
+      when 'm' then break display_menu
+      else
+        puts '(Invalid option. Try again.)'
+      end
+    end
+  end
+
   def display_menu
     puts "\nMain Menu"
-    puts "\n| 1. 📖Creapedia |"
-    puts '| 2. 👾Team      |'
-    puts '| 3. 📦Boxes     |'
-    puts '| 4. 🎒Bag       |'
-    puts '| 5. ✅Save      |'
-    puts '| 6. ⍈Exit Menu |'
-    puts '| 7. ⍈Exit Game |'
+    puts "\n | 1. 📖Creapedia | 2. 👾Team | 3. 📦Boxes | 4. 🎒Bag | 5. ✅Save | 6. ⍈Exit Menu | 7. ⍈Exit Game  |"
   end
 
   def handle_creapedia
-    puts "\nYou have #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
+    puts "\n📖Creapedia"
+    puts "\nYour Creapedia has #{@player_creapedia.count} #{@player_creapedia.count == 1 ? 'entry.' : 'entries.'}"
     @player_creapedia.each do |creature|
       puts "\n#{creature.entry_info}."
     end
@@ -62,7 +72,7 @@ class Menu
 
   def move_to_boxes_from_team(creature)
     if @team.count <= 1
-      puts 'You must keep at least one creature in your team!'
+      puts "\nYou must keep at least one creature in your team!"
     else
       @team.remove_from_team(creature)
       @boxes.add_to_box(creature)
@@ -112,9 +122,9 @@ class Menu
 
   def handle_team
     loop do
-      puts "\nYour Team:"
+      puts "\n👾Team"
       @team.each_with_index do |creature, index|
-        puts "#{index + 1} - #{creature.name} 👾"
+        puts "\n#{index + 1} - #{creature.name} 👾"
       end
       puts "\nPress a number to open the creature menu or 'b' to return to the main menu."
       input = $stdin.getch.downcase
@@ -135,6 +145,7 @@ class Menu
 
   def handle_boxes
     loop do
+      puts "\n 📦Boxes"
       if @boxes.count >= 1
         puts "\n#{@boxes.map(&:to_s).join("\n")}"
       else
@@ -148,11 +159,11 @@ class Menu
 
   def open_bag
     loop do
-      puts "\nBag"
+      puts "\n🎒Bag"
       if @bag.count >= 1
         puts "\n#{@bag.map(&:to_s).join("\n")}"
       else
-        puts "\nBox is empty."
+        puts "\nBag is empty."
       end
       puts "\nPress 'b' to return to the menu."
       break if $stdin.getch.downcase == 'b'
