@@ -31,7 +31,7 @@ class Menu
       when '3' then handle_boxes
       when '4' then open_bag
       when '5' then save_game
-      when '6' then break exit_menu
+      when '6' then break map_cases
       when '7' then exit_game
       else
         puts '(Invalid option. Try again.)'
@@ -39,19 +39,42 @@ class Menu
     end
   end
 
+  def map_cases
+    case @current_location
+    when "Prof. Kaku's Lab" then lab_menu
+    when 'Leafy Town' then leafy_town_menu
+    end
+  end
+
   private
 
-  def exit_menu
+  def lab_menu
     loop do
+      @current_location = "Prof. Kaku's Lab"
       puts "\n#{@current_location}"
       puts "\n | 1.Exit Laboratory | 2.Talk to Prof. Kaku | M.Open Menu |"
       key = $stdin.getch.downcase
       case key
-      when '1' then break
-      when '2' then break prof_kaku_first_speach
+      when '1' then break leafy_town_menu
+      when '2' then break prof_kaku_first_speach if @current_location == "Prof. Kaku's Lab"
       when 'm' then break display_menu
       else
         puts '(Invalid option. Try again.)'
+      end
+    end
+  end
+
+  def leafy_town_menu
+    loop do
+      @current_location = 'Leafy Town'
+      puts "\n#{@current_location}"
+      puts "\n | 1.Enter Laboratory | 2.Enter your home | 3.Look at the lake | 4.Go to Route 1 | M.Open Menu |"
+      key = $stdin.getch.downcase
+      case key
+      when '1' then break lab_menu
+      when '2' then break home_menu
+      when '3' then break lake_event
+      when 'm' then break display_menu
       end
     end
   end
@@ -61,7 +84,7 @@ class Menu
     puts "\n'It's time for you to go #{@player}, the world is full of mysteries and adventures!'"
     puts "'Remember to be careful out there, go now , take care of #{@team.first}and complete your Creapedia!'"
     puts "\n"
-    exit_menu
+    lab_menu
   end
 
   def display_menu
