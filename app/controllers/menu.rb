@@ -18,6 +18,7 @@ class Menu
     @boxes = game_data[:boxes]
     @creapedia = game_data[:creapedia]
     @bag = game_data[:bag]
+    @current_location = game_data[:current_location]
   end
 
   def run
@@ -42,17 +43,25 @@ class Menu
 
   def exit_menu
     loop do
-      puts "\nWorld"
+      puts "\n#{@current_location}"
       puts "\n | 1.Exit Laboratory | 2.Talk to Prof. Kaku | M.Open Menu |"
       key = $stdin.getch.downcase
       case key
-      when '1' then
-      when '2' then
+      when '1' then break
+      when '2' then break prof_kaku_first_speach
       when 'm' then break display_menu
       else
         puts '(Invalid option. Try again.)'
       end
     end
+  end
+
+  def prof_kaku_first_speach
+    puts "\nProf. Kaku:"
+    puts "\n'It's time for you to go #{@player}, the world is full of mysteries and adventures!'"
+    puts "'Remember to be careful out there, go now , take care of #{@team.first}and complete your Creapedia!'"
+    puts "\n"
+    exit_menu
   end
 
   def display_menu
@@ -172,7 +181,7 @@ class Menu
   end
 
   def save_game
-    savefile = @creapedia.to_json_data(@player, @player_creapedia, @team, @boxes, @bag)
+    savefile = @creapedia.to_json_data(@player, @player_creapedia, @team, @boxes, @bag, @current_location)
     File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
     puts "\nGame saved!"
     display_menu

@@ -32,6 +32,7 @@ if File.exist?('savefile.json')
     box.map { |data| Creature.from_h(data) }
   end
   bag = save_data['bag']
+  current_location = save_data['current_location']
 
   # Welcomes the player and prompts command to start the game
   puts "Welcome back, #{player}!"
@@ -41,6 +42,7 @@ if File.exist?('savefile.json')
     key = $stdin.getch.downcase
     if key == 's'
       puts "\n[ Game Started ]"
+      puts "\n#{@current_location}"
       break
     else
       puts "\n(Press S for start the game)"
@@ -53,7 +55,8 @@ if File.exist?('savefile.json')
     team: team,
     boxes: boxes,
     bag: bag,
-    creapedia: creapedia
+    creapedia: creapedia,
+    current_location: current_location
   }
   menu = Menu.new(game_data)
   # World loop
@@ -70,7 +73,7 @@ else
     team: team,
     bag: bag
   )
-  player, starter = starting.choose
+  player, starter, current_location = starting.choose
 
   game_data = {
     player: player,
@@ -79,7 +82,8 @@ else
     team: team,
     boxes: boxes,
     bag: bag,
-    creapedia: creapedia
+    creapedia: creapedia,
+    current_location: current_location
   }
   menu = Menu.new(game_data)
   loop do

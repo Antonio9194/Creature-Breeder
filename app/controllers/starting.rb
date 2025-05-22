@@ -14,15 +14,20 @@ class Starting
     @boxes = game_data[:boxes]
     @creapedia = game_data[:creapedia]
     @bag = game_data[:bag]
+    @current_location = game_data[:current_location]
   end
 
   def choose
     player = player_name
     creature = select_starter
+    current_location = "Prof. Kaku's Lab"
     puts "\nYou chose #{creature.name} as your starter!"
     adding_first_item
+    p player
+    p creature
+    p current_location
     puts "\nPress 'M' to open the main menu and check your creapedia entry!"
-    [player, creature]
+    [player, creature, current_location]
   end
 
   private

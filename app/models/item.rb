@@ -11,12 +11,19 @@ class Item
     @emoji = attributes[:emoji]
     @quantity = attributes[:quantity]
     @description = attributes[:description]
-    # Key Items, Healing, Capture, Money, Badges
   end
 
   def to_s
     puts "\n#{@emoji}#{@name}        x #{@quantity}"
     puts "#{@description}"
+  end
+
+  def to_h
+    {
+      name: @name,
+      quantity: @quantity,
+      description: @description
+    }
   end
 
   def increase_quantity(amount)
