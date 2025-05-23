@@ -4,12 +4,22 @@ require_relative 'base_location'
 
 # Kaku's Lab Map Area
 class KakusLab < BaseLocation
+  def initialize(menu)
+    super(menu)
+    @first_time_talk = true
+  end
+
   def prof_kaku_first_speach
     puts "\nProf. Kaku:"
-    puts "\n'The time has come, #{@menu.player}. Beyond these walls lies a world " \
-    "teeming with untamed creatures and legends waiting to be uncovered!'"
-    puts "'Venture forth—but stay sharp!Protect your #{@menu.team.name} at all costs, and may your Creapedia grow!"
-    puts "\n"
+    if @first_time_talk
+      puts "\n'The time has come, #{@menu.player}. Beyond these walls lies a world " \
+      "teeming with untamed creatures and legends waiting to be uncovered!'"
+      puts "'Venture forth—but stay sharp!Protect your #{@menu.team.name} at all costs, and may your Creapedia grow!"
+      puts "\n"
+      @first_time_talk = false
+    else
+      puts "\n'Go on then. The world won't explore itself!'"
+    end
     lab_menu
   end
 
