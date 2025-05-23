@@ -14,8 +14,8 @@ require_relative '../repositories/bag_repository'
 
 # Menu logic
 class Menu
-  attr_reader :player
-  attr_accessor :team, :current_location
+  attr_reader :player, :team
+  attr_accessor :current_location
 
   def initialize(game_data)
     @player = game_data[:player]
