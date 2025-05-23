@@ -43,4 +43,11 @@ class Item
     quantity: 1,
     description: 'Item used to heal 10 HP'
   )
+
+  MONEY = Item.new(
+    name: 'Money',
+    emoji: '💰',
+    quantity: 1,
+    description: 'In game currecny'
+  )
 end

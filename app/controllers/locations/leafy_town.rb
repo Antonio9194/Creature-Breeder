@@ -12,7 +12,7 @@ class LeafyTown < BaseLocation
       key = $stdin.getch.downcase
       case key
       when '1' then break @menu.lab_menu
-      when '2' then break home_menu
+      when '2' then break @menu.home_menu
       when '3' then break lake_event
       when 'm' then break @menu.display_menu
       else

@@ -6,6 +6,7 @@ require_relative '../models/creature'
 
 require_relative '../controllers/locations/prof_kakus_lab'
 require_relative '../controllers/locations/leafy_town'
+require_relative '../controllers/locations/home'
 
 require_relative '../repositories/player_creapedia_repository'
 require_relative '../repositories/boxes_repository'
@@ -14,7 +15,7 @@ require_relative '../repositories/bag_repository'
 
 # Menu logic
 class Menu
-  attr_reader :player, :team
+  attr_reader :player, :team, :bag
   attr_accessor :current_location
 
   def initialize(game_data)
@@ -28,6 +29,7 @@ class Menu
 
     @lab_menu = KakusLab.new(self)
     @leafy_town_menu = LeafyTown.new(self)
+    @home_menu = Home.new(self)
   end
 
   def run
@@ -52,7 +54,12 @@ class Menu
     case @current_location
     when "Prof. Kaku's Lab" then @lab_menu.lab_menu
     when 'Leafy Town' then @leafy_town_menu.leafy_town_menu
+    when 'Home' then @home_menu.home_menu
     end
+  end
+
+  def home_menu
+    @home_menu.home_menu
   end
 
   def leafy_town_menu
