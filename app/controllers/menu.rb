@@ -4,6 +4,9 @@ require 'io/console'
 require_relative '../models/creapedia'
 require_relative '../models/creature'
 
+require_relative '../controllers/locations/prof_kakus_lab'
+require_relative '../controllers/locations/leafy_town'
+
 require_relative '../repositories/player_creapedia_repository'
 require_relative '../repositories/boxes_repository'
 require_relative '../repositories/team_repository'
@@ -11,6 +14,9 @@ require_relative '../repositories/bag_repository'
 
 # Menu logic
 class Menu
+  attr_reader :player
+  attr_accessor :team, :current_location
+
   def initialize(game_data)
     @player = game_data[:player]
     @player_creapedia = game_data[:player_creapedia]
@@ -19,6 +25,9 @@ class Menu
     @creapedia = game_data[:creapedia]
     @bag = game_data[:bag]
     @current_location = game_data[:current_location]
+
+    @lab_menu = KakusLab.new(self)
+    @leafy_town_menu = LeafyTown.new(self)
   end
 
   def run
@@ -41,50 +50,17 @@ class Menu
 
   def map_cases
     case @current_location
-    when "Prof. Kaku's Lab" then lab_menu
-    when 'Leafy Town' then leafy_town_menu
-    end
-  end
-
-  private
-
-  def lab_menu
-    loop do
-      @current_location = "Prof. Kaku's Lab"
-      puts "\n#{@current_location}"
-      puts "\n | 1.Exit Laboratory | 2.Talk to Prof. Kaku | M.Open Menu |"
-      key = $stdin.getch.downcase
-      case key
-      when '1' then break leafy_town_menu
-      when '2' then break prof_kaku_first_speach if @current_location == "Prof. Kaku's Lab"
-      when 'm' then break display_menu
-      else
-        puts '(Invalid option. Try again.)'
-      end
+    when "Prof. Kaku's Lab" then @lab_menu.lab_menu
+    when 'Leafy Town' then @leafy_town_menu.leafy_town_menu
     end
   end
 
   def leafy_town_menu
-    loop do
-      @current_location = 'Leafy Town'
-      puts "\n#{@current_location}"
-      puts "\n | 1.Enter Laboratory | 2.Enter your home | 3.Look at the lake | 4.Go to Route 1 | M.Open Menu |"
-      key = $stdin.getch.downcase
-      case key
-      when '1' then break lab_menu
-      when '2' then break home_menu
-      when '3' then break lake_event
-      when 'm' then break display_menu
-      end
-    end
+    @leafy_town_menu.leafy_town_menu
   end
 
-  def prof_kaku_first_speach
-    puts "\nProf. Kaku:"
-    puts "\n'It's time for you to go #{@player}, the world is full of mysteries and adventures!'"
-    puts "'Remember to be careful out there, go now , take care of #{@team.first}and complete your Creapedia!'"
-    puts "\n"
-    lab_menu
+  def lab_menu
+    @lab_menu.lab_menu
   end
 
   def display_menu

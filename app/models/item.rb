@@ -41,6 +41,6 @@ class Item
     name: 'Potion',
     emoji: '🧪',
     quantity: 1,
-    description: 'Item used to heal 10hp'
+    description: 'Item used to heal 10 HP'
   )
 end

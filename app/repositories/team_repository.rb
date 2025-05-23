@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../models/creature'
+
 # Team
 class TeamRepo
   include Enumerable
@@ -11,6 +13,10 @@ class TeamRepo
 
   def each(&block)
     @team.each(&block)
+  end
+
+  def name
+    @team.first.name
   end
 
   def team_count
