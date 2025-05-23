@@ -33,7 +33,17 @@ class Menu
   end
 
   def run
+    @menu_opened = false
+
     loop do
+      unless @menu_opened
+        puts "\nPress 'M' to open menu"
+        key = $stdin.getch.downcase
+        next unless key == 'm' # Ignore all other keys
+
+        @menu_opened = true
+      end
+      display_menu
       key = $stdin.getch.downcase
       case key
       when 'm' then display_menu
@@ -42,10 +52,11 @@ class Menu
       when '3' then handle_boxes
       when '4' then open_bag
       when '5' then save_game
-      when '6' then break map_cases
+      when '6' then map_cases
       when '7' then exit_game
       else
-        puts '(Invalid option. Try again.)'
+        puts "\nInvalid option. Press 'm' to see menu options"
+        sleep(0.5)
       end
     end
   end
