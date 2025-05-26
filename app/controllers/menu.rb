@@ -34,6 +34,7 @@ class Menu
 
   def run
     @menu_opened = false
+    @creapedia_opened = false
     loop do
       unless @menu_opened
         puts "\nPress 'M' to open menu"
@@ -43,6 +44,15 @@ class Menu
         display_menu
         @menu_opened = true
       end
+
+      unless @creapedia_opened
+        puts "\nOpen your Creapedia"
+        key = $stdin.getch.downcase
+        next unless key == '1' # Ignore all other key
+
+        @creapedia_opened = true
+      end
+
       key = $stdin.getch.downcase
       case key
       when '1' then handle_creapedia

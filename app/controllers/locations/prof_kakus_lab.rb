@@ -30,7 +30,12 @@ class KakusLab < BaseLocation
       puts "\n | 1.Exit Laboratory | 2.Talk to Prof. Kaku | M.Open Menu |"
       key = $stdin.getch.downcase
       case key
-      when '1' then break @menu.leafy_town_menu
+      when '1'
+        unless @talked_to_the_prof
+          puts "\nThe Professor is waiting to speak to you."
+          next
+        end
+        break @menu.leafy_town_menu
       when '2' then break prof_kaku_first_speach
       when 'm' then break @menu.display_menu
       else
