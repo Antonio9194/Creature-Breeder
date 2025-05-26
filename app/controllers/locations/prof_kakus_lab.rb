@@ -4,19 +4,15 @@ require_relative 'base_location'
 
 # Kaku's Lab Map Area
 class KakusLab < BaseLocation
-  def initialize(menu)
-    super(menu)
-    @talked_to_the_prof = false
-  end
 
   def prof_kaku_first_speach
     puts "\nProf. Kaku:"
-    if @talked_to_the_prof == false
+    if @menu.flags[:talked_to_the_prof] == false
       puts "\n'The time has come, #{@menu.player}. Beyond these walls lies a world " \
       "teeming with untamed creatures and legends waiting to be uncovered!'"
       puts "'Venture forth—but stay sharp!Protect your #{@menu.team.name} at all costs, and may your Creapedia grow!"
       puts "\n"
-      @talked_to_the_prof = true
+      @menu.flags[:talked_to_the_prof] = true
     else
       puts "\n'Go on then. The world won't explore itself!'"
     end
@@ -31,7 +27,7 @@ class KakusLab < BaseLocation
       key = $stdin.getch.downcase
       case key
       when '1'
-        unless @talked_to_the_prof
+        unless @menu.flags[:talked_to_the_prof]
           puts "\nThe Professor is waiting to speak to you."
           next
         end

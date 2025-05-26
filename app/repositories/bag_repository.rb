@@ -13,6 +13,11 @@ class BagRepo
     @bag.each(&block)
   end
 
+  def self.from_h(array_of_hashes)
+    items = array_of_hashes.map { |item_hash| Item.new(item_hash.transform_keys(&:to_sym)) }
+    new(items)
+  end
+
   def [](index)
     @bag[index]
   end

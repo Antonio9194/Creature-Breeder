@@ -3,14 +3,10 @@
 require_relative 'base_location'
 
 class Home < BaseLocation
-  def initialize(menu)
-    super(menu)
-    @talked_to_mom = false
-  end
 
   def mom_speach
     puts "\nMom:"
-    if @talked_to_mom == false
+    if @menu.flags[:talked_to_mom] == false
       puts "\n'Good morning #{@menu.player}, did you go meet Prof. Kaku?'"
       puts "'He said he had something very special for you.'"
       puts "'Ah, #{@menu.team.first.name} is so cute! Make sure to take care of your friend!'"
@@ -19,7 +15,7 @@ class Home < BaseLocation
       5000.times { @menu.bag.add_item_to_bag(money) }
       puts "\n5000 Trins were added to your bag."
       puts "\n"
-      @talked_to_mom = true
+      @menu.flags[:talked_to_mom] = true
     else
       puts "\n'Take kare of yourself out there and come back home once in a while!'"
     end

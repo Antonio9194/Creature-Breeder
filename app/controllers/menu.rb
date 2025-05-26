@@ -16,7 +16,7 @@ require_relative '../repositories/bag_repository'
 # Menu logic
 class Menu
   attr_reader :player, :team, :bag
-  attr_accessor :current_location
+  attr_accessor :current_location, :flags
 
   def initialize(game_data)
     @player = game_data[:player]
@@ -27,30 +27,38 @@ class Menu
     @bag = game_data[:bag]
     @current_location = game_data[:current_location]
 
+    default_flags = {
+      menu_opened: false,
+      creapedia_opened: false,
+      talked_to_the_prof: false,
+      talked_to_mom: false
+    }
+
+    @flags = game_data[:flags] || default_flags
+
     @lab_menu = KakusLab.new(self)
     @leafy_town_menu = LeafyTown.new(self)
     @home_menu = Home.new(self)
   end
 
   def run
-    @menu_opened = false
-    @creapedia_opened = false
     loop do
-      unless @menu_opened
+      unless @flags[:menu_opened] == true
         puts "\nPress 'M' to open menu"
         key = $stdin.getch.downcase
         next unless key == 'm' # Ignore all other key
 
         display_menu
-        @menu_opened = true
+        @flags[:menu_opened] = true
       end
 
-      unless @creapedia_opened
+      unless @flags[:creapedia_opened] == true
         puts "\nOpen your Creapedia"
         key = $stdin.getch.downcase
         next unless key == '1' # Ignore all other key
 
-        @creapedia_opened = true
+        handle_creapedia
+        @flags[:creapedia_opened] = true
       end
 
       key = $stdin.getch.downcase
@@ -205,10 +213,31 @@ class Menu
   end
 
   def save_game
-    savefile = @creapedia.to_json_data(@player, @player_creapedia, @team, @boxes, @bag, @current_location)
-    File.open('savefile.json', 'w') { |f| f.write(savefile.to_json) }
-    puts "\nGame saved!"
-    display_menu
+    data = {
+      player: @player,
+      player_creapedia: @player_creapedia,
+      team: @team,
+      boxes: [@boxes], # make sure this matches your structure
+      bag: @bag,
+      current_location: @current_location,
+      flags: @flags
+    }
+
+    json_data = to_json_data(data)
+    File.write('savefile.json', JSON.pretty_generate(json_data))
+    puts '💾 Game saved successfully!'
+  end
+
+  def to_json_data(data)
+    {
+      player: data[:player],
+      player_creapedia: data[:player_creapedia].map(&:to_h),
+      team: data[:team].map(&:to_h),
+      boxes: data[:boxes].map { |box| box.map(&:to_h) },
+      bag: data[:bag].map(&:to_h),
+      current_location: data[:current_location].to_s,
+      flags: data[:flags]
+    }
   end
 
   def exit_game

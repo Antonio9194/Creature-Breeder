@@ -101,15 +101,4 @@ class Creapedia
               end
               .join("\n")
   end
-
-  def to_json_data(player, player_creapedia, team, boxes, bag, current_location)
-    {
-      player: player,
-      player_creapedia: player_creapedia.map(&:to_h), # convert creatures to hashes
-      team: team.map(&:to_h),
-      boxes: boxes.map { |box| box.map(&:to_h) },
-      bag: bag.map(&:to_h),
-      current_location: current_location.to_s
-    }
-  end
 end

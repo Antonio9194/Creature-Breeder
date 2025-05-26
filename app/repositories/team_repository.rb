@@ -15,6 +15,11 @@ class TeamRepo
     @team.each(&block)
   end
 
+  def self.from_h(array_of_hashes)
+    creatures = array_of_hashes.map { |creature_hash| Creature.from_h(creature_hash) }
+    new(creatures)
+  end
+
   def name
     @team.first.name
   end

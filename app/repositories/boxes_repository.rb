@@ -13,6 +13,13 @@ class BoxesRepo
     @boxes.each(&block)
   end
 
+  def self.from_h(array_of_boxes)
+    boxes = array_of_boxes.map do |box_array|
+      box_array.map { |creature_hash| Creature.from_h(creature_hash) }
+    end
+    new(boxes)
+  end
+
   def [](index)
     @boxes[index]
   end

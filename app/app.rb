@@ -27,12 +27,13 @@ if File.exist?('savefile.json')
 
   game_data = {
     player: save_data['player'],
-    player_creapedia: save_data['player_creapedia'].map { |data| Creature.from_h(data) },
-    team: save_data['team'].map { |data| Creature.from_h(data) },
-    boxes: save_data['boxes'].map { |box| box.map { |data| Creature.from_h(data) } },
-    bag: save_data['bag'],
+    player_creapedia: PlayerCreapediaRepo.from_h(save_data['player_creapedia']),
+    team: TeamRepo.from_h(save_data['team']),
+    boxes: BoxesRepo.from_h(save_data['boxes']),
+    bag: BagRepo.from_h(save_data['bag']),
     creapedia: creapedia,
-    current_location: save_data['current_location']
+    current_location: save_data['current_location'],
+    flags: save_data['flags']
   }
 
   menu = Menu.new(game_data)
@@ -52,7 +53,6 @@ if File.exist?('savefile.json')
     end
   end
 
-  menu = Menu.new(game_data)
   # World loop
   loop do
     # Menu loop
