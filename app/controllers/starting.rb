@@ -23,7 +23,7 @@ class Starting
     current_location = "Prof. Kaku's Lab"
     puts "\nYou chose #{creature.name} as your starter!"
     adding_first_item
-    puts "\nPress 'M' to open the main menu and check your creapedia entry!"
+    puts "\nOpen the main menu and check your first creapedia entry!"
     [player, creature, current_location]
   end
 

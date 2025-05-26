@@ -6,17 +6,17 @@ require_relative 'base_location'
 class KakusLab < BaseLocation
   def initialize(menu)
     super(menu)
-    @first_time_talk = true
+    @talked_to_the_prof = false
   end
 
   def prof_kaku_first_speach
     puts "\nProf. Kaku:"
-    if @first_time_talk
+    if @talked_to_the_prof == false
       puts "\n'The time has come, #{@menu.player}. Beyond these walls lies a world " \
       "teeming with untamed creatures and legends waiting to be uncovered!'"
       puts "'Venture forth—but stay sharp!Protect your #{@menu.team.name} at all costs, and may your Creapedia grow!"
       puts "\n"
-      @first_time_talk = false
+      @talked_to_the_prof = true
     else
       puts "\n'Go on then. The world won't explore itself!'"
     end
