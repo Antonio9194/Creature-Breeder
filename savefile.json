@@ -1,17 +1,17 @@
 {
-  "player": "s",
+  "player": "Red",
   "player_creapedia": [
     {
-      "name": "Lavagor",
-      "species": "Drake",
-      "element": "Fire",
+      "name": "Aqualis",
+      "species": "Sylph",
+      "element": "Water",
       "level": 1,
       "xp": 0,
       "xp_needed": 100,
       "rarity": "Rare",
       "health": 10,
       "abilities": [
-        "Flame Roar"
+        "Bubble Jet"
       ],
       "discovered": true,
       "owned": true
@@ -19,16 +19,16 @@
   ],
   "team": [
     {
-      "name": "Lavagor",
-      "species": "Drake",
-      "element": "Fire",
+      "name": "Aqualis",
+      "species": "Sylph",
+      "element": "Water",
       "level": 1,
       "xp": 0,
       "xp_needed": 100,
       "rarity": "Rare",
       "health": 10,
       "abilities": [
-        "Flame Roar"
+        "Bubble Jet"
       ],
       "discovered": true,
       "owned": true
@@ -42,20 +42,37 @@
   "bag": [
     {
       "name": "Creaflop",
+      "emoji": "💾",
       "quantity": 10,
       "description": "Item used to capture Creatures"
     },
     {
       "name": "Potion",
+      "emoji": "🧪",
       "quantity": 5,
       "description": "Item used to heal 10 HP"
+    },
+    {
+      "name": "Money",
+      "emoji": "💰",
+      "quantity": 5000,
+      "description": "In game currecny"
     }
   ],
-  "current_location": "Prof. Kaku's Lab",
+  "current_location": "Route No.1",
   "flags": {
     "menu_opened": true,
     "creapedia_opened": true,
     "talked_to_the_prof": true,
-    "talked_to_mom": false
+    "visited_home": false,
+    "talked_to_mom": true,
+    "received_money": true,
+    "watched_tv_news_voltrag_event": false,
+    "watched_tv_news_glacira_event": true,
+    "watched_tv_news_obelisk_event": false,
+    "watched_tv_news_nightclaw_event": false,
+    "voltrag_lake_event": true,
+    "have_fishing_road": false,
+    "have_swim_skill": false
   }
 }

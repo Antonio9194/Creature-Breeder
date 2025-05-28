@@ -7,6 +7,8 @@ require_relative '../models/creature'
 require_relative '../controllers/locations/prof_kakus_lab'
 require_relative '../controllers/locations/leafy_town'
 require_relative '../controllers/locations/home'
+require_relative '../controllers/locations/player_room'
+require_relative '../controllers/locations/route_1'
 
 require_relative '../repositories/player_creapedia_repository'
 require_relative '../repositories/boxes_repository'
@@ -31,7 +33,16 @@ class Menu
       menu_opened: false,
       creapedia_opened: false,
       talked_to_the_prof: false,
-      talked_to_mom: false
+      visited_home: false,
+      talked_to_mom: false,
+      received_money: false,
+      watched_tv_news_voltrag_event: false,
+      watched_tv_news_glacira_event: false,
+      watched_tv_news_obelisk_event: false,
+      watched_tv_news_nightclaw_event: false,
+      voltrag_lake_event: false,
+      have_fishing_road: false,
+      have_swim_skill: false
     }
 
     @flags = game_data[:flags] || default_flags
@@ -39,11 +50,13 @@ class Menu
     @lab_menu = KakusLab.new(self)
     @leafy_town_menu = LeafyTown.new(self)
     @home_menu = Home.new(self)
+    @player_room_menu = PlayerRoom.new(self)
+    @route_1_menu = RouteOne.new(self, @creapedia, @player_creapedia)
   end
 
   def run
     loop do
-      unless @flags[:menu_opened] == true
+      if @flags[:menu_opened] == false
         puts "\nPress 'M' to open menu"
         key = $stdin.getch.downcase
         next unless key == 'm' # Ignore all other key
@@ -52,7 +65,7 @@ class Menu
         @flags[:menu_opened] = true
       end
 
-      unless @flags[:creapedia_opened] == true
+      if @flags[:creapedia_opened] == false
         puts "\nOpen your Creapedia"
         key = $stdin.getch.downcase
         next unless key == '1' # Ignore all other key
@@ -81,7 +94,17 @@ class Menu
     when "Prof. Kaku's Lab" then @lab_menu.lab_menu
     when 'Leafy Town' then @leafy_town_menu.leafy_town_menu
     when 'Home' then @home_menu.home_menu
+    when 'Player Room' then @player_room_menu.player_room_menu
+    when 'Route No.1' then @route_1_menu.route_1_menu
     end
+  end
+
+  def route_1_menu
+    @route_1_menu.route_1_menu
+  end
+
+  def player_room_menu
+    @player_room_menu.player_room_menu
   end
 
   def home_menu
@@ -233,7 +256,7 @@ class Menu
       player: data[:player],
       player_creapedia: data[:player_creapedia].map(&:to_h),
       team: data[:team].map(&:to_h),
-      boxes: data[:boxes].map { |box| box.map(&:to_h) },
+      boxes: (data[:boxes].respond_to?(:boxes) ? data[:boxes].boxes : data[:boxes]).map { |box| box.map(&:to_h) },
       bag: data[:bag].map(&:to_h),
       current_location: data[:current_location].to_s,
       flags: data[:flags]

@@ -10,6 +10,8 @@ class PlayerCreapediaRepo
   end
 
   def add_to_creapedia(creature)
+    return if @creatures.any? { |c| c.species == creature.species }
+
     @creatures << creature
   end
 

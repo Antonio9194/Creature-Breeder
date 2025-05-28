@@ -27,7 +27,7 @@ class KakusLab < BaseLocation
       key = $stdin.getch.downcase
       case key
       when '1'
-        unless @menu.flags[:talked_to_the_prof]
+        if @menu.flags[:talked_to_the_prof] == false
           puts "\nThe Professor is waiting to speak to you."
           next
         end

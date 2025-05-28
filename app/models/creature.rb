@@ -2,8 +2,8 @@
 
 # Creature class, mold for creatures
 class Creature
-  attr_reader :name, :species, :element, :level, :rarity, :health, :abilities
-  attr_accessor :discovered, :owned, :xp, :xp_needed
+  attr_reader :name, :species, :element, :rarity
+  attr_accessor :discovered, :owned, :xp, :xp_needed, :level, :health, :abilities
 
   def initialize(name, species, element, attributes = {})
     @name = name

@@ -14,13 +14,14 @@ class Item
   end
 
   def to_s
-    puts "\n#{@emoji}#{@name}        x #{@quantity}"
+    puts "\n#{@name}        #{@emoji}x #{@quantity}"
     puts "#{@description}"
   end
 
   def to_h
     {
       name: @name,
+      emoji: @emoji,
       quantity: @quantity,
       description: @description
     }
