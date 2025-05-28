@@ -24,7 +24,7 @@ class TeamRepo
     @team.first.name
   end
 
-  def team_count
+  def size
     @team.count
   end
 

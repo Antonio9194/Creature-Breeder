@@ -51,7 +51,8 @@ class Menu
     @leafy_town_menu = LeafyTown.new(self)
     @home_menu = Home.new(self)
     @player_room_menu = PlayerRoom.new(self)
-    @route_1_menu = RouteOne.new(self, @creapedia, @player_creapedia)
+    @fight = Fight.new(self, @team, @opponent)
+    @route_1_menu = RouteOne.new(self, @creapedia, @player_creapedia, @fight, @team)
   end
 
   def run
