@@ -80,8 +80,14 @@ class Creature
   def info
     ability_names = @abilities.map { |a| a[:name] }.join(', ')
     "Name: #{@name}, Species: #{@species}, Element: #{@element}, " \
+    "Level: #{@level}, Rarity: #{@rarity}, Health: #{@health}, "
+  end
+
+  def info_after_choice
+    ability_names = @abilities.map { |a| a[:name] }.join(', ')
+    "Name: #{@name}, Species: #{@species}, Element: #{@element}, " \
     "Level: #{@level}, Rarity: #{@rarity}, Health: #{@health}, " \
-    "Abilities: #{ability_names}"
+    "Abilities: #{ability_names}, XP: #{@xp}, XP Needed: #{@xp_needed}"
   end
 
   def entry_info
@@ -90,16 +96,24 @@ class Creature
   end
 
   def gain_xp(amount)
+    puts "Gaining #{amount} XP for #{@name}..."
     @xp += amount
     level_up while @xp >= @xp_needed
+    puts "Now has #{@xp} XP, needs #{@xp_needed} XP to next level."
+  end
+
+  def xp_to_next_level
+    remaining = @xp_needed - @xp
+    remaining > 0 ? remaining : 0
   end
 
   def level_up
+    puts "#{@name} leveling up from level #{@level}!"
     @xp -= @xp_needed
     @level += 1
     @xp_needed = (@level**1.5 * 100).to_i
-    @health = @level * 10  # Optionally increase health on level up
-    puts "#{@name} leveled up to level #{@level}!"
+    @health = @level * 10
+    puts "#{@name} leveled up to level #{@level}! XP needed now #{@xp_needed}"
   end
 
   def generate_abilities
@@ -169,7 +183,7 @@ class Creature
 
   # Damage scales with level * power of ability
   def calculate_damage(ability)
-    damage = (@level * ability[:power])  # simple scaling
+    damage = (@level * ability[:power])
     damage = 1 if damage < 1 # always at least 1 damage
     damage
   end

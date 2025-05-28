@@ -56,6 +56,8 @@ class Starting
     puts "\nDo you want to choose #{creature.name}? (Yes/No)"
     confirm = gets.chomp.downcase
     if confirm == 'yes'
+      creature = creature.dup
+      creature.abilities = creature.abilities.sample(2)
       creature.discovered = true
       creature.owned = true
       @player_creapedia.add_to_creapedia(creature)

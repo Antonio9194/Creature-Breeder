@@ -32,7 +32,7 @@ class WildEncounter
     wild_creature.health = wild_creature.level * 10
     wild_creature.xp = 0
     wild_creature.xp_needed = 100
-    wild_creature.abilities ||= [generate_abilities]
+    wild_creature.abilities = wild_creature.abilities.sample(2)
     wild_creature.discovered = true
 
     player_creapedia.add_to_creapedia(wild_creature)

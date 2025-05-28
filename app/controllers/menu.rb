@@ -182,7 +182,7 @@ class Menu
 
   def details(creature)
     puts "\nDetails for #{creature.name}:"
-    puts creature.info # or whatever method shows all info
+    puts creature.info_after_choice # or whatever method shows all info
   end
 
   def handle_team
@@ -241,7 +241,7 @@ class Menu
       player: @player,
       player_creapedia: @player_creapedia,
       team: @team,
-      boxes: [@boxes], # make sure this matches your structure
+      boxes: @boxes,
       bag: @bag,
       current_location: @current_location,
       flags: @flags
@@ -257,7 +257,7 @@ class Menu
       player: data[:player],
       player_creapedia: data[:player_creapedia].map(&:to_h),
       team: data[:team].map(&:to_h),
-      boxes: (data[:boxes].respond_to?(:boxes) ? data[:boxes].boxes : data[:boxes]).map { |box| box.map(&:to_h) },
+      boxes: data[:boxes].map { |box| box.map(&:to_h) },
       bag: data[:bag].map(&:to_h),
       current_location: data[:current_location].to_s,
       flags: data[:flags]
