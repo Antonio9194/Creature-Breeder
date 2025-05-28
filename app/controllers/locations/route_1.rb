@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
 require_relative 'base_location'
-
 require_relative '../wild_encounter'
 require_relative '../fight'
-
 require_relative '../../models/creapedia'
 
 class RouteOne < BaseLocation
-  def initialize(menu, creapedia, player_creapedia, fight)
+  def initialize(menu, creapedia, player_creapedia, team)
     super(menu)
     @creapedia = creapedia
     @player_creapedia = player_creapedia
-    @fight = fight
+    @team = team
   end
 
   def route_1_menu
@@ -26,7 +24,7 @@ class RouteOne < BaseLocation
       when '2' then break @menu.route_2_menu
       when '3'
         wild_creature = WildEncounter.encounter('Route 1', @creapedia, @player_creapedia)
-        fight = Fight.new(@menu, @menu.player.team, wild_creature)
+        fight = Fight.new(@menu, @team, wild_creature)
         fight.fight_loop
       when 'm' then break @menu.display_menu
       else

@@ -11,7 +11,31 @@
       "rarity": "Rare",
       "health": 10,
       "abilities": [
-        "Bubble Jet"
+        {
+          "name": "Water Blast",
+          "power": 5,
+          "type": "Water"
+        },
+        {
+          "name": "Bubble Jet",
+          "power": 3,
+          "type": "Water"
+        },
+        {
+          "name": "Tsunami",
+          "power": 7,
+          "type": "Water"
+        },
+        {
+          "name": "Aqua Whip",
+          "power": 4,
+          "type": "Water"
+        },
+        {
+          "name": "Soak",
+          "power": 2,
+          "type": "Water"
+        }
       ],
       "discovered": true,
       "owned": true
@@ -28,7 +52,31 @@
       "rarity": "Rare",
       "health": 10,
       "abilities": [
-        "Bubble Jet"
+        {
+          "name": "Water Blast",
+          "power": 5,
+          "type": "Water"
+        },
+        {
+          "name": "Bubble Jet",
+          "power": 3,
+          "type": "Water"
+        },
+        {
+          "name": "Tsunami",
+          "power": 7,
+          "type": "Water"
+        },
+        {
+          "name": "Aqua Whip",
+          "power": 4,
+          "type": "Water"
+        },
+        {
+          "name": "Soak",
+          "power": 2,
+          "type": "Water"
+        }
       ],
       "discovered": true,
       "owned": true
@@ -59,7 +107,7 @@
       "description": "In game currecny"
     }
   ],
-  "current_location": "Route No.1",
+  "current_location": "Leafy Town",
   "flags": {
     "menu_opened": true,
     "creapedia_opened": true,
@@ -67,10 +115,10 @@
     "visited_home": false,
     "talked_to_mom": true,
     "received_money": true,
-    "watched_tv_news_voltrag_event": false,
+    "watched_tv_news_voltrag_event": true,
     "watched_tv_news_glacira_event": true,
-    "watched_tv_news_obelisk_event": false,
-    "watched_tv_news_nightclaw_event": false,
+    "watched_tv_news_obelisk_event": true,
+    "watched_tv_news_nightclaw_event": true,
     "voltrag_lake_event": true,
     "have_fishing_road": false,
     "have_swim_skill": false

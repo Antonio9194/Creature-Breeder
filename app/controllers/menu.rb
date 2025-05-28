@@ -52,7 +52,7 @@ class Menu
     @home_menu = Home.new(self)
     @player_room_menu = PlayerRoom.new(self)
     @fight = Fight.new(self, @team, @opponent)
-    @route_1_menu = RouteOne.new(self, @creapedia, @player_creapedia, @fight, @team)
+    @route_1_menu = RouteOne.new(self, @creapedia, @player_creapedia, @team)
   end
 
   def run
