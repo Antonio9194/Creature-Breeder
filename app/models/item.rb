@@ -42,8 +42,12 @@ class Item
     name: 'Potion',
     emoji: '🧪',
     quantity: 1,
-    description: 'Item used to heal 10 HP'
+    description: 'Item used to heal 100 HP'
   )
+
+  def use_potion
+
+  end
 
   MONEY = Item.new(
     name: 'Money',

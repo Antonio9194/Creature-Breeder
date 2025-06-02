@@ -30,18 +30,23 @@ class Fight
     opponent.level * damage
   end
 
-  def apply_damage(opponent, damage, chosen_creature)
-    opponent.health -= damage
-    opponent.health = 0 if opponent.health < 0
-    puts "\n#{opponent.name} has #{opponent.health} HP left."
-    return false unless opponent.health.zero?
+  def apply_damage(target, damage, attacker)
+    target.health -= damage
+    target.health = 0 if target.health < 0
+    puts "\n#{target.name} has #{target.health} HP left."
 
-    puts "#{opponent.name} fainted! 💔"
-    gained_xp = calculate_gained_xp(opponent, damage)
-    chosen_creature.gain_xp(gained_xp) # 💡 Use the proper method
-    puts "\n#{chosen_creature.name} gained #{gained_xp} XP!"
-    remaining_xp = chosen_creature.xp_needed - chosen_creature.xp
-    puts "\n#{chosen_creature.name} needs #{chosen_creature.xp_to_next_level} more XP to level up."
+    return false unless target.health.zero?
+
+    puts "#{target.name} fainted! 💔"
+
+    # Only give XP if the attacker is one of the player's creatures
+    if @team.include?(attacker)
+      gained_xp = calculate_gained_xp(target, damage)
+      attacker.gain_xp(gained_xp)
+      puts "\n#{attacker.name} gained #{gained_xp} XP!"
+      puts "\n#{attacker.name} needs #{attacker.xp_to_next_level} more XP to level up."
+    end
+
     true
   end
 
@@ -80,12 +85,19 @@ class Fight
 
           defeated = apply_damage(@opponent, damage, chosen_creature)
           break if defeated
+
+          # Opponent's turn to attack
+          sleep(1)
+          enemy_ability = @opponent.abilities.sample
+          enemy_damage = calculate_damage(@opponent, enemy_ability)
+          puts "\n#{@opponent.name} retaliates with #{enemy_ability[:name]} and deals #{enemy_damage} damage!"
+          defeated = apply_damage(chosen_creature, enemy_damage, @opponent)
+          break if defeated
         else
           puts "\nInvalid ability choice!"
         end
 
-      when '2'
-        puts "\nYou checked your bag. (Not implemented yet!)"
+      when '2' then @menu.open_bag
       when '3'
         puts "\nYou ran away safely!"
         @menu.map_cases

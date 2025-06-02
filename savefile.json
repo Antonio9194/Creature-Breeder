@@ -2,48 +2,48 @@
   "player": "Red",
   "player_creapedia": [
     {
-      "name": "Lavagor",
-      "species": "Drake",
-      "element": "Fire",
+      "name": "Aqualis",
+      "species": "Sylph",
+      "element": "Water",
       "level": 1,
-      "xp": 12,
+      "xp": 0,
       "xp_needed": 100,
       "rarity": "Rare",
       "health": 10,
       "abilities": [
         {
-          "name": "Ignite",
-          "power": 4,
-          "type": "Fire"
+          "name": "Tsunami",
+          "power": 7,
+          "type": "Water"
         },
         {
-          "name": "Firestorm",
-          "power": 6,
-          "type": "Fire"
+          "name": "Water Blast",
+          "power": 5,
+          "type": "Water"
         }
       ],
       "discovered": true,
       "owned": true
     },
     {
-      "name": "Craggit",
-      "species": "Golem",
-      "element": "Earth",
+      "name": "Howlit",
+      "species": "Beast",
+      "element": "Air",
       "level": 3,
       "xp": 0,
       "xp_needed": 100,
       "rarity": "Common",
-      "health": 0,
+      "health": 30,
       "abilities": [
         {
-          "name": "Quake Slam",
-          "power": 6,
-          "type": "Earth"
+          "name": "Screech",
+          "power": 3,
+          "type": "Air"
         },
         {
-          "name": "Stone Punch",
-          "power": 4,
-          "type": "Earth"
+          "name": "Feather Storm",
+          "power": 5,
+          "type": "Air"
         }
       ],
       "discovered": true,
@@ -52,24 +52,24 @@
   ],
   "team": [
     {
-      "name": "Lavagor",
-      "species": "Drake",
-      "element": "Fire",
+      "name": "Aqualis",
+      "species": "Sylph",
+      "element": "Water",
       "level": 1,
-      "xp": 12,
+      "xp": 0,
       "xp_needed": 100,
       "rarity": "Rare",
       "health": 10,
       "abilities": [
         {
-          "name": "Ignite",
-          "power": 4,
-          "type": "Fire"
+          "name": "Tsunami",
+          "power": 7,
+          "type": "Water"
         },
         {
-          "name": "Firestorm",
-          "power": 6,
-          "type": "Fire"
+          "name": "Water Blast",
+          "power": 5,
+          "type": "Water"
         }
       ],
       "discovered": true,
@@ -91,6 +91,12 @@
       "emoji": "🧪",
       "quantity": 5,
       "description": "Item used to heal 10 HP"
+    },
+    {
+      "name": "Money",
+      "emoji": "💰",
+      "quantity": 5000,
+      "description": "In game currecny"
     }
   ],
   "current_location": "Route No.1",
@@ -99,13 +105,13 @@
     "creapedia_opened": true,
     "talked_to_the_prof": true,
     "visited_home": false,
-    "talked_to_mom": false,
-    "received_money": false,
-    "watched_tv_news_voltrag_event": false,
-    "watched_tv_news_glacira_event": false,
-    "watched_tv_news_obelisk_event": false,
-    "watched_tv_news_nightclaw_event": false,
-    "voltrag_lake_event": false,
+    "talked_to_mom": true,
+    "received_money": true,
+    "watched_tv_news_voltrag_event": true,
+    "watched_tv_news_glacira_event": true,
+    "watched_tv_news_obelisk_event": true,
+    "watched_tv_news_nightclaw_event": true,
+    "voltrag_lake_event": true,
     "have_fishing_road": false,
     "have_swim_skill": false
   }
