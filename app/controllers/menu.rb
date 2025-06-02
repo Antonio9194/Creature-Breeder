@@ -152,9 +152,7 @@ class Menu
   end
 
   def creature_menu(creature)
-    puts '1. Check Details'
-    puts '2. Move to Boxes'
-    puts '3. Back to previous Menu'
+    puts "\n | 1. Check Deatils | 2. Move to Boxes | 3. Back |"
     input = $stdin.getch.downcase
     case input
     when '1' then details(creature)
@@ -225,15 +223,35 @@ class Menu
   def open_bag
     loop do
       puts "\n🎒Bag"
-      if @bag.count >= 1
-        puts "\n#{@bag.map(&:to_s).join("\n")}"
-      else
-        puts "\nBag is empty."
+      @bag.each_with_index do |item, index|
+        puts "\n#{index + 1}. #{item.name}   #{item.emoji}x#{item.quantity}"
       end
-      puts "\nPress 'b' to return to the menu."
-      break if $stdin.getch.downcase == 'b'
+      puts "\nChoose an item or press 'b' to return to the menu."
+      input = $stdin.getch.downcase
+      if input == 'b'
+        display_menu
+        break
+      elsif input =~ /\d/ && input.to_i.between?(1, @bag.count)
+        item = @bag[input.to_i - 1]
+        item_menu(item)
+        break
+      else
+        puts 'Invalid input. Please try again.'
+      end
     end
-    display_menu
+  end
+
+  def item_menu(item)
+    puts "\n Item's Description"
+    puts "\n"
+    puts "\n #{item.name}#{item.description}"
+    puts "\n | 1. Use | 2. Back |"
+    input = $stdin.getch.downcase
+    case input
+    when '1' then puts "\n Work in progress"
+    when '2' then open_bag
+    else puts "\nWrong input, try again."
+    end
   end
 
   def save_game

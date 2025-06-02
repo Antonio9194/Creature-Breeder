@@ -42,17 +42,19 @@ class Item
     name: 'Potion',
     emoji: '🧪',
     quantity: 1,
-    description: 'Item used to heal 100 HP'
+    description: 'is an item used to heal up to 100 HP'
   )
 
   def use_potion
-
+    healed = [@creature.max_health - @creature.health, 100].min
+    @creature.health += healed
+    puts "\n#{@creature.name} was healed for #{healed} HP! Now at #{@creature.health}/#{@creature.max_health} HP."
   end
 
   MONEY = Item.new(
-    name: 'Money',
+    name: 'Trins',
     emoji: '💰',
     quantity: 1,
-    description: 'In game currecny'
+    description: 'is the currency used to purchase items.'
   )
 end

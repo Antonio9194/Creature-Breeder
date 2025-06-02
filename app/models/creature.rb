@@ -13,6 +13,7 @@ class Creature
     @xp = attributes[:xp] || 0
     @xp_needed = attributes[:xp_needed] || 100
     @rarity = attributes[:rarity]
+    @max_health = attributes[:max_health] || @health
     @health = attributes[:health] || @level * 10
     self.abilities = attributes[:abilities] || generate_abilities
     @discovered = attributes.fetch(:discovered, false)
